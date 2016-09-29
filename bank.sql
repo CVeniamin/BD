@@ -47,6 +47,13 @@ create table borrower
     foreign key(customer_name) references customer(customer_name),
     foreign key(loan_number) references loan(loan_number));
 
+create table bank_news
+    (id int primary key,
+    title varchar(250),
+    body text,
+    fulltext ( title , body )
+    ) engine=MyISAM;
+
 /* populate relations */
 
 insert into customer	values ('Jones',	'Main',		'Harrison');
@@ -117,19 +124,8 @@ insert into borrower values ('Adams',	'L-16');
 insert into borrower values ('McBride',	'L-20');
 insert into borrower values ('Smith',	'L-21');
 
-/*
-create table bank_news (
-id int primary key,
-title varchar(250),
-body text,
-fulltext ( title , body )
-) engine=MyISAM;
 insert into bank_news values ( 1 , 'New Perryridge branch' , 'The new Perryridge branch, in the city center, has opened today.');
 insert into bank_news values ( 2 , 'Customer feedback' , 'Customers from the Brighton branch, located in the center of the city, have provided a great deal of positive feedback.');
 insert into bank_news values ( 3 , 'New focus group' , 'Several Perryridge branch staff have been promoted to a skilled team who are focused on improving customer relations.');
 insert into bank_news values ( 4 , 'New staff' , 'Several new staff members have been hired for the Brighton branch.');
 insert into bank_news values ( 5 , 'Branch in Redwood' , 'New branch in Redwood is bringing us closer to clients in the area.');
-
-
-
-*/
