@@ -11,8 +11,8 @@
   	$password="aaqq2196";
   	$dbname = $user;
 
-  	$connection = new PDO("mysql:host=" . $host. ";dbname=" . $dbname, $user, $password, array(PDO::ATTR_ERRMODE =>PDO::ERRMODE_WARNING));
-
+  	$connection = new PDO("mysql:host=" . $host. ";dbname=" . $dbname, $user, $password);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   	echo("<p>Connected to MySQL database $dbname on $host as user $user</p>\n");
 
   	$sql = "SELECT * FROM account;";
@@ -30,17 +30,17 @@
   	foreach($result as $row)
   	{
   		echo("\n");
-  	}
-  	echo("<table border="1"><tbody><tr><td>account_number</td><td>branch_name</td><td>balance</td></tr><tr><td>");
-		echo($row["account_number"]);
-		echo("</td><td>");
-		echo($row["branch_name"]);
-		echo("</td><td>");
-		echo($row["balance"]);
-		echo("</td></tr></tbody></table>\n");
-    $connection = null;
-  	echo("<p>Connection closed.</p>\n");
-  	echo("<p>Test completed successfully.</p>\n");
+    	echo("<table border="1"><tbody><tr><td>account_number</td><td>branch_name</td><td>balance</td></tr><tr><td>");
+  		echo($row["account_number"]);
+  		echo("</td><td>");
+  		echo($row["branch_name"]);
+  		echo("</td><td>");
+  		echo($row["balance"]);
+  		echo("</td></tr></tbody></table>\n");
+      $connection = null;
+    	echo("<p>Connection closed.</p>\n");
+    	echo("<p>Test completed successfully.</p>\n");
+    }
     ?>
     <p>
       hue!
