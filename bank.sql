@@ -31,7 +31,7 @@ create table depositor
     account_number 	varchar(255)	not null,
     primary key(customer_name, account_number),
     foreign key(customer_name) references customer(customer_name),
-	foreign key(account_number) references account(account_number));
+    foreign key(account_number) references account(account_number));
 
 create table loan
    (loan_number 	varchar(255)	not null unique,
