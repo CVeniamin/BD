@@ -129,3 +129,32 @@ insert into bank_news values ( 2 , 'Customer feedback' , 'Customers from the Bri
 insert into bank_news values ( 3 , 'New focus group' , 'Several Perryridge branch staff have been promoted to a skilled team who are focused on improving customer relations.');
 insert into bank_news values ( 4 , 'New staff' , 'Several new staff members have been hired for the Brighton branch.');
 insert into bank_news values ( 5 , 'Branch in Redwood' , 'New branch in Redwood is bringing us closer to clients in the area.');
+
+delimiter //
+
+drop function if exists total_balance //
+
+create function total_balance(c varchar(255)) returns decimal(20,2)
+
+begin
+      declare credit decimal(20,2);
+      declare debt decimal(20,2);
+
+      select sum(balance) into credit
+      from account natural join depositor
+      where customer_name = c;
+
+      if credit is null then set credit = 0;
+      end if;
+
+      select sum(amount) into debt
+      from loan natural join borrower
+      where customer_name = c;
+
+      if debt is null then set debt = 0;
+      end if;
+
+      return credit-debt;
+end//
+
+delimiter ;
