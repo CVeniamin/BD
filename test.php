@@ -10,8 +10,11 @@ echo("<p>Connected to MySQL database $dbname on $host</p>");
 
 $sql = "SELECT * FROM account";
 
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> fc658804fd0f770f5195660fbb8e6041e80d9758
 echo('<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . ' >');
 
 echo('<input type="text" name="customer" value="' . htmlspecialchars($_POST["customer"]) . ' />');
@@ -19,6 +22,10 @@ echo('<input type="text" name="customer" value="' . htmlspecialchars($_POST["cus
 echo('<input type="submit" name="submit" /> </form>');
 
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> fc658804fd0f770f5195660fbb8e6041e80d9758
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (empty($_POST["customer"])) {
     echo "empty";
@@ -30,6 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
 }
+<<<<<<< HEAD
+=======
 //
 // echo('<form method="post" action="">');
 //
@@ -43,17 +52,23 @@ if(isset($_POST['submit'])) {
   echo('You entered: ', htmlspecialchars($_POST["something"]));
 }
 
+>>>>>>> fc658804fd0f770f5195660fbb8e6041e80d9758
 
 
 $sql_balance = "SELECT total_balance() as tot_balance";
 
 echo("<p>Query: " . $sql . "</p>\n");
 
+<<<<<<< HEAD
+echo("<p> Query: ". $sql_balance . "</p>\n");
+=======
 echo ("<p> Query: ". $sql_balance . "</p>\n");
+>>>>>>> fc658804fd0f770f5195660fbb8e6041e80d9758
 
 $result = $conn->query($sql);
 
 $result_balance = $conn->query($sql_balance);
+<<<<<<< HEAD
 
 $num = $result->rowCount();
 $num_balance = $result_balance->rowCount();
@@ -90,3 +105,42 @@ $conn = null;
 echo("<p>Connection closed.</p>\n");
 
 echo("<p>Test completed successfully.</p>\n");
+
+=======
+
+$num = $result->rowCount();
+$num_balance = $result_balance->rowCount();
+
+
+echo("<p>num: $num  records retrieved:</p>\n");
+
+echo("<p>num: $num_balance  records retrieved:</p>\n");
+
+echo("\n");
+echo("\n");
+foreach($result as $row)
+{
+  echo("\n");
+  echo("<table><tbody><tr><td>account_number</td><td>branch_name</td><td>balance</td></tr><tr><td>");
+  echo($row["account_number"]);
+  echo("</td><td>");
+  echo($row["branch_name"]);
+  echo("</td><td>");
+  echo($row["balance"]);
+  echo("</td></tr>");
+}
+
+foreach($result_balance as $row)
+{
+  echo("\n");
+  echo("<table><tbody><tr><td>tot_balance</td><tr><td>");
+  echo($row["tot_balance"]);
+  echo("</td><td>");
+}
+
+echo("</tbody></table>\n");
+$conn = null;
+echo("<p>Connection closed.</p>\n");
+
+echo("<p>Test completed successfully.</p>\n");
+>>>>>>> fc658804fd0f770f5195660fbb8e6041e80d9758

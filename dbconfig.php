@@ -1,5 +1,5 @@
 <?php
-  $host='localhost';
-  $dbname='bd';
-  $username = 'root';
-  $password = '';
+  $host='db.ist.utl.pt';
+  $dbname='ist182028';
+  $username = 'ist182028';
+  $password = 'mypassxxxx';
