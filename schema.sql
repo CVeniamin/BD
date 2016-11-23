@@ -30,6 +30,8 @@ create table alugavel
     foto    int(10) unsigned,
     primary key(morada,codigo),
     foreign key(morada) references edificio(morada) on delete cascade);
+
+
 create table arrenda
    (morada 	varchar(255)	not null,
     codigo 	int	not null,
@@ -99,3 +101,6 @@ create table estado
 create table reserva
    (numero int not null,
     primary key(numero);
+
+
+-- hue
