@@ -30,7 +30,7 @@ create table alugavel
     codigo  integer	not null,
     foto    integer(10) unsigned,
     primary key(morada,codigo),
-    foreign key(morada) references edificio(morada));
+    foreign key(morada) references edificio(morada) on delete cascade);
 
 
 create table arrenda
@@ -49,20 +49,19 @@ create table fiscaliza
     primary key(id,morada,codigo),
     foreign key(morada,codigo) references arrenda(morada,codigo));
 
-
-
 create table espaco
    (morada 	varchar(255)    not null,
     codigo 	integer	not null,
     primary key(morada,codigo),
-    foreign key(morada,codigo) references alugavel(morada,codigo));
+    foreign key(morada,codigo) references alugavel(morada,codigo) on delete cascade);
 
 create table posto
    (morada 	varchar(255)    not null,
     codigo 	integer	not null,
     codigo_espaco integer	not null,
     primary key(morada,codigo),
-    foreign key(morada,codigo) references espaco(morada,codigo));
+    foreign key(morada,codigo) references alugavel(morada,codigo) on delete cascade,
+    foreign key(morada,codigo_espaco) references espaco(morada,codigo) on delete cascade);
 
 create table oferta
    (morada 	varchar(255)    not null,
@@ -70,4 +69,9 @@ create table oferta
     codigo_espaco integer	not null,
     codigo_espaco integer	not null,
     primary key(morada,codigo),
-    foreign key(morada,codigo) references espaco(morada,codigo));
+    foreign key(morada,codigo) references espaco(morada,codigo) on delete cascade);
+
+
+create table reserva
+   (id 	    integer(9) not null unsigned,
+    primary key(id));
