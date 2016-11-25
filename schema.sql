@@ -72,10 +72,17 @@ create table if not exists alugavel
     primary key(morada,codigo),
     foreign key(morada) references edificio(morada) on delete cascade);
 
+
 create table if not exists arrenda
    (morada  varchar(255)  not null,
     codigo  int(11) not null,
     nif   int(9) unsigned not null,
+
+create table arrenda
+   (morada 	varchar(255)	not null,
+    codigo 	int	not null,
+    nif 	int(9) not null unsigned,
+>>>>>>> 4f1587b068c996699fd3054360e108f27c92684e
     primary key(morada,codigo),
     foreign key(nif) references utilizador(nif),
     foreign key(morada,codigo) references alugavel(morada,codigo) on delete cascade);
@@ -140,4 +147,3 @@ create table if not exists estado
     estado varchar(255) not null,
     primary key(numero,`timestamp`),
     foreign key(numero) references reserva(numero) on delete cascade);
-
