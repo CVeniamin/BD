@@ -20,7 +20,7 @@ create table branch
 
 create table account
    (account_number varchar(255) not null unique,
-    branch_namevarchar(255) not null,
+    branch_name varchar(255) not null,
     balance numeric(20,2) not null,
     primary key(account_number),
     foreign key(branch_name) references branch(branch_name));
@@ -34,7 +34,7 @@ create table depositor
 
 create table loan
    (loan_number varchar(255) not null unique,
-    branch_namevarchar(255) not null,
+    branch_name varchar(255) not null,
     amount numeric(20,2) not null,
     primary key(loan_number),
     foreign key(branch_name) references branch(branch_name));
