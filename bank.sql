@@ -1,3 +1,4 @@
+
  drop table bank_news cascade;
  drop table borrower cascade;
  drop table loan cascade;
