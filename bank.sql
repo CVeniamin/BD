@@ -1,4 +1,4 @@
-/*
+
  drop table bank_news cascade;
  drop table borrower cascade;
  drop table loan cascade;
@@ -6,7 +6,8 @@
  drop table account cascade;
  drop table customer cascade;
  drop table branch cascade;
-*/
+
+
 create table customer
    (customer_name varchar(255)not null unique,
     customer_street varchar(255)not null,
