@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 
-=======
 >>>>>>> 25b8df45525532e33071e7660f104d09e80bd5bf
  drop table bank_news cascade;
  drop table borrower cascade;
@@ -10,10 +8,6 @@
  drop table customer cascade;
  drop table branch cascade;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 25b8df45525532e33071e7660f104d09e80bd5bf
 create table customer
    (customer_name varchar(255) not null unique,
     customer_street varchar(255) not null,
