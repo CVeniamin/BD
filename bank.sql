@@ -1,4 +1,3 @@
-/*
  drop table bank_news cascade;
  drop table borrower cascade;
  drop table loan cascade;
@@ -6,43 +5,43 @@
  drop table account cascade;
  drop table customer cascade;
  drop table branch cascade;
-*/
+
 create table customer
-   (customer_name varchar(255)not null unique,
-    customer_street varchar(255)not null,
-    customer_city varchar(255)not null,
+   (customer_name varchar(255) not null unique,
+    customer_street varchar(255) not null,
+    customer_city varchar(255) not null,
     primary key(customer_name));
 
 create table branch
-   (branch_name varchar(255)not null unique,
-    branch_city varchar(255)not null,
-    assets numeric(20,2)not null,
+   (branch_name varchar(255) not null unique,
+    branch_city varchar(255) not null,
+    assets numeric(20,2) not null,
     primary key(branch_name));
 
 create table account
-   (account_number varchar(255)not null unique,
-    branch_namevarchar(255)not null,
-    balance numeric(20,2)not null,
+   (account_number varchar(255) not null unique,
+    branch_namevarchar(255) not null,
+    balance numeric(20,2) not null,
     primary key(account_number),
     foreign key(branch_name) references branch(branch_name));
 
 create table depositor
-   (customer_name varchar(255)not null,
-    account_number varchar(255)not null,
+   (customer_name varchar(255) not null,
+    account_number varchar(255) not null,
     primary key(customer_name, account_number),
     foreign key(customer_name) references customer(customer_name),
     foreign key(account_number) references account(account_number));
 
 create table loan
-   (loan_number varchar(255)not null unique,
-    branch_namevarchar(255)not null,
-    amount numeric(20,2)not null,
+   (loan_number varchar(255) not null unique,
+    branch_namevarchar(255) not null,
+    amount numeric(20,2) not null,
     primary key(loan_number),
     foreign key(branch_name) references branch(branch_name));
 
 create table borrower
-   (customer_name varchar(255)not null,
-    loan_number varchar(255)not null,
+   (customer_name varchar(255) not null,
+    loan_number varchar(255) not null,
     primary key(customer_name, loan_number),
     foreign key(customer_name) references customer(customer_name),
     foreign key(loan_number) references loan(loan_number));
