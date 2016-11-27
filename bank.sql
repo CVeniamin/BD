@@ -1,5 +1,4 @@
 
->>>>>>> 25b8df45525532e33071e7660f104d09e80bd5bf
  drop table bank_news cascade;
  drop table borrower cascade;
  drop table loan cascade;
