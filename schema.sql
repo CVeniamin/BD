@@ -1,140 +1,172 @@
-/*
- drop table bank_news cascade;
- drop table borrower cascade;
- drop table loan cascade;
- drop table depositor cascade;
- drop table account cascade;
- drop table customer cascade;
- drop table branch cascade;
-*/
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS utilizador CASCADE;
+DROP TABLE IF EXISTS fiscal CASCADE;
+DROP TABLE IF EXISTS edificio CASCADE;
+DROP TABLE IF EXISTS alugavel CASCADE;
+DROP TABLE IF EXISTS arrenda CASCADE;
+DROP TABLE IF EXISTS fiscaliza CASCADE;
+DROP TABLE IF EXISTS espaco CASCADE;
+DROP TABLE IF EXISTS posto CASCADE;
+DROP TABLE IF EXISTS oferta CASCADE;
+DROP TABLE IF EXISTS reserva CASCADE;
+DROP TABLE IF EXISTS aluga CASCADE;
+DROP TABLE IF EXISTS paga CASCADE;
+DROP TABLE IF EXISTS estado CASCADE;
+SET FOREIGN_KEY_CHECKS = 1;
 
+CREATE TABLE IF NOT EXISTS utilizador
+(
+  nif      INT(9) UNSIGNED NOT NULL,
+  nome     VARCHAR(255)    NOT NULL,
+  telefone INT(9) UNSIGNED NOT NULL,
+  PRIMARY KEY (nif)
+)
+  ENGINE = INNODB;
 
-drop table if exists utilizador cascade;
-drop table if exists fiscal cascade;
-drop table if exists edificio cascade;
-drop table if exists alugavel cascade;
-drop table if exists arrenda cascade;
-drop table if exists fiscaliza cascade;
-drop table if exists espaco cascade;
-drop table if exists posto cascade;
-drop table if exists oferta cascade;
-drop table if exists reserva cascade;
-drop table if exists aluga cascade;
-drop table if exists paga cascade;
-drop table if exists estado cascade;
-drop table if exists utilizador cascade;
-drop table if exists fiscal cascade;
-drop table if exists edificio cascade;
-drop table if exists alugavel cascade;
-drop table if exists arrenda cascade;
-drop table if exists fiscaliza cascade;
-drop table if exists espaco cascade;
-drop table if exists posto cascade;
-drop table if exists oferta cascade;
-drop table if exists reserva cascade;
-drop table if exists aluga cascade;
-drop table if exists paga cascade;
-drop table if exists estado cascade;
-drop table if exists utilizador cascade;
-drop table if exists fiscal cascade;
-drop table if exists edificio cascade;
-drop table if exists alugavel cascade;
-drop table if exists arrenda cascade;
-drop table if exists fiscaliza cascade;
-drop table if exists espaco cascade;
-drop table if exists posto cascade;
-drop table if exists oferta cascade;
-drop table if exists reserva cascade;
-drop table if exists aluga cascade;
-drop table if exists paga cascade;
-drop table if exists estado cascade;
-drop table if exists edificio cascade;
+CREATE TABLE IF NOT EXISTS fiscal
+(
+  id      INT(9) UNSIGNED NOT NULL,
+  empresa VARCHAR(255)    NOT NULL,
+  PRIMARY KEY (id)
+)
+  ENGINE = INNODB;
 
-create table if not exists utilizador
-   (nif     int(9) unsigned not null,
-    nome  varchar(255)  not null,
-    telefone int(9) unsigned not null,
-    primary key(nif));
+CREATE TABLE IF NOT EXISTS edificio
+(
+  morada VARCHAR(255) NOT NULL,
+  PRIMARY KEY (morada)
+)
+  ENGINE = INNODB;
 
-create table if not exists fiscal
-   (id      int(9) unsigned not null,
-    empresa varchar(255)  not null,
-    primary key(id));
+CREATE TABLE IF NOT EXISTS alugavel
+(
+  morada VARCHAR(255)     NOT NULL,
+  codigo INT(11) UNSIGNED NOT NULL,
+  foto   INT(10) UNSIGNED,
+  PRIMARY KEY (morada, codigo),
+  FOREIGN KEY (morada) REFERENCES edificio (morada)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+  ENGINE = INNODB;
 
-create table if not exists edificio
-   (morada  varchar(255)  not null,
-    primary key(morada));
+CREATE TABLE IF NOT EXISTS arrenda
+(
+  morada VARCHAR(255)     NOT NULL,
+  codigo INT(11) UNSIGNED NOT NULL,
+  nif    INT(9) UNSIGNED  NOT NULL,
+  PRIMARY KEY (morada, codigo),
+  FOREIGN KEY (nif) REFERENCES utilizador (nif)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (morada, codigo) REFERENCES alugavel (morada, codigo)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+  ENGINE = INNODB;
 
-create table if not exists alugavel
-   (morada  varchar(255)  not null,
-    codigo  int(11) not null,
-    foto    int(10) unsigned,
-    primary key(morada,codigo),
-    foreign key(morada) references edificio(morada) on delete cascade);
+CREATE TABLE IF NOT EXISTS fiscaliza
+(
+  id     INT(9) UNSIGNED  NOT NULL,
+  morada VARCHAR(255)     NOT NULL,
+  codigo INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (id, morada, codigo),
+  FOREIGN KEY (id) REFERENCES fiscal (id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (morada, codigo) REFERENCES arrenda (morada, codigo)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+  ENGINE = INNODB;
 
-create table if not exists arrenda
-   (morada 	varchar(255)	not null,
-    codigo 	int(11)	not null,
-    nif 	int(9) unsigned not null ,
-    primary key(morada,codigo),
-    foreign key(nif) references utilizador(nif),
-    foreign key(morada,codigo) references alugavel(morada,codigo) on delete cascade);
+CREATE TABLE IF NOT EXISTS espaco
+(
+  morada VARCHAR(255)     NOT NULL,
+  codigo INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (morada, codigo),
+  FOREIGN KEY (morada, codigo) REFERENCES alugavel (morada, codigo)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+  ENGINE = INNODB;
 
-create table if not exists fiscaliza
-   (id      int(9) unsigned not null,
-    morada  varchar(255)    not null,
-    codigo  int(11) not null,
-    primary key(id,morada,codigo),
-    foreign key(morada,codigo) references arrenda(morada,codigo) on delete cascade);
+CREATE TABLE IF NOT EXISTS posto
+(
+  morada        VARCHAR(255)     NOT NULL,
+  codigo        INT(11) UNSIGNED NOT NULL,
+  codigo_espaco INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (morada, codigo),
+  FOREIGN KEY (morada, codigo) REFERENCES alugavel (morada, codigo)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (morada, codigo_espaco) REFERENCES espaco (morada, codigo)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+  ENGINE = INNODB;
 
-create table if not exists espaco
-   (morada  varchar(255)    not null,
-    codigo  int(11) not null,
-    primary key(morada,codigo),
-    foreign key(morada,codigo) references alugavel(morada,codigo) on delete cascade);
+CREATE TABLE IF NOT EXISTS oferta
+(
+  morada      VARCHAR(255)     NOT NULL,
+  codigo      INT(11) UNSIGNED NOT NULL,
+  data_inicio INT(11) UNSIGNED NOT NULL,
+  data_fim    INT(11) UNSIGNED NOT NULL,
+  tarifa      DECIMAL(10, 2)   NOT NULL,
+  PRIMARY KEY (morada, codigo, data_inicio),
+  FOREIGN KEY (morada, codigo) REFERENCES alugavel (morada, codigo)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+  ENGINE = INNODB;
 
-create table if not exists posto
-   (morada  varchar(255)    not null,
-    codigo  int(11) not null,
-    codigo_espaco int(11) not null,
-    primary key(morada,codigo),
-    foreign key(morada,codigo) references alugavel(morada,codigo) on delete cascade,
-    foreign key(morada,codigo_espaco) references espaco(morada,codigo) on delete cascade);
+CREATE TABLE IF NOT EXISTS reserva
+(
+  numero INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (numero)
+)
+  ENGINE = INNODB;
 
-create table if not exists oferta
-   (morada  varchar(255) not null,
-    codigo  int(11) unsigned not null,
-    data_inicio int(11) unsigned  not null,
-    data_fim int(11) unsigned  not null,
-    tarifa decimal(10,2)  not null,
-    primary key(morada,codigo,data_inicio),
-    foreign key(morada,codigo) references alugavel(morada,codigo) on delete cascade);
+CREATE TABLE IF NOT EXISTS aluga
+(
+  morada      VARCHAR(255)     NOT NULL,
+  codigo      INT(11) UNSIGNED NOT NULL,
+  data_inicio INT(11) UNSIGNED NOT NULL,
+  nif         INT(9) UNSIGNED  NOT NULL,
+  numero      INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (morada, codigo, data_inicio, nif, numero),
+  FOREIGN KEY (numero) REFERENCES reserva (numero)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (morada, codigo, data_inicio) REFERENCES oferta (morada, codigo, data_inicio)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (nif) REFERENCES utilizador (nif)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+  ENGINE = INNODB;
 
-create table if not exists reserva
-   (numero int unsigned not null,
-    primary key(numero));
+CREATE TABLE IF NOT EXISTS paga
+(
+  numero INT(11) UNSIGNED NOT NULL,
+  data   INT(11) UNSIGNED NOT NULL,
+  metodo VARCHAR(255)     NOT NULL,
+  PRIMARY KEY (numero),
+  FOREIGN KEY (numero) REFERENCES reserva (numero)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+  ENGINE = INNODB;
 
-create table if not exists aluga
-   (morada  varchar(255) not null,
-    codigo  int(11) unsigned not null,
-    data_inicio int(11) unsigned not null,
-    nif int(9) unsigned not null,
-    numero int unsigned not null,
-    primary key(morada,codigo,data_inicio,nif,numero),
-    foreign key(numero) references reserva(numero) on delete cascade,
-    foreign key(morada,codigo,data_inicio) references oferta(morada,codigo,data_inicio) on delete cascade,
-    foreign key(nif) references utilizador(nif) on delete cascade);
-
-create table if not exists paga
-   (numero int unsigned not null,
-    data  int(11) unsigned not null,
-    metodo varchar(255) not null,
-    primary key(numero),
-    foreign key(numero) references reserva(numero) on delete cascade);
-
-create table if not exists estado
-   (numero int unsigned not null,
-    `timestamp`  int(11) unsigned not null,
-    estado varchar(255) not null,
-    primary key(numero,`timestamp`),
-    foreign key(numero) references reserva(numero) on delete cascade);
+CREATE TABLE IF NOT EXISTS estado
+(
+  numero      INT(11) UNSIGNED NOT NULL,
+  `timestamp` INT(11) UNSIGNED NOT NULL,
+  estado      VARCHAR(255)     NOT NULL,
+  PRIMARY KEY (numero, `timestamp`),
+  FOREIGN KEY (numero) REFERENCES reserva (numero)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+  ENGINE = INNODB;
