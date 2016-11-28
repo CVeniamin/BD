@@ -27,9 +27,19 @@ insert into arrenda values ('Dusty Rabbit Knoll',1,950245011),('Noble Path',2,36
 
 insert into fiscaliza values (123,'Dusty Rabbit Knoll',1),(345,'Noble Path',2),(567,'Silent Barn Promenade',3),(789,'Middle Pond Landing',4),(910,'Foggy Island Terrace',5);
 
-insert into espaco values ('Dusty Rabbit Knoll',1),('Noble Path',2),('Silent Barn Promenade',3),('Middle Pond Landing',4),('Foggy Island Terrace',5),('Harvest Willow Passage',6);
+insert into espaco values ('Dusty Rabbit Knoll',1);
+insert into espaco values('Noble Path',2);
+insert into espaco values('Silent Barn Promenade',3);
+insert into espaco values('Middle PondLanding',4);
+insert into espaco values('Foggy Island Terrace',5);
+insert into espaco values('Harvest Willow Passage',6);
 
-insert into posto values ('Dusty Rabbit Knoll',1,2),('Noble Path',2,2),('Silent Barn Promenade',3,3),('Middle Pond
-Landing',2,4);
+insert into posto values ('Dusty Rabbit Knoll',1,2);
+insert into posto values ('Dusty Rabbit Knoll',2,2);
+insert into posto values ('Dusty Rabbit Knoll',3,2);
+insert into posto values ('Dusty Rabbit Knoll',4,2);
+insert into posto values('Noble Path',2,2);
+insert into posto values('Silent Barn Promenade',3,3);
+insert into posto values('Middle Pond Landing',2,4);
 
 insert into reserva values (1);
