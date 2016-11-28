@@ -8,7 +8,7 @@
     </form>
 
 <?php
-    require_once './../dbconfig.php';
+    require_once './dbconfig.php';
 
     function test_input($data) {
         $data = trim($data);
@@ -28,7 +28,7 @@
             echo($row['branch_name']);
             echo("</td><td>");
             echo($row['balance']);
-            echo("<td><a href=\"test.php?account_number={$row['account_number']}\">Change balance</a></td>\n");
+            echo("<td><a href=\"index.php?account_number={$row['account_number']}\">Change balance</a></td>\n");
             echo("</tr>\n");
         }
         echo("</table>\n");
