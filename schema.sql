@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS utilizador
 
 CREATE TABLE IF NOT EXISTS fiscal
 (
-  id      INT(9) UNSIGNED NOT NULL,
+  id      INT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
   empresa VARCHAR(255)    NOT NULL,
   PRIMARY KEY (id)
 )
@@ -42,11 +42,12 @@ CREATE TABLE IF NOT EXISTS alugavel
 (
   morada VARCHAR(255)     NOT NULL,
   codigo INT(11) UNSIGNED NOT NULL,
-  foto   INT(10) UNSIGNED,
+  foto   MEDIUMBLOB,
   PRIMARY KEY (morada, codigo),
   FOREIGN KEY (morada) REFERENCES edificio (morada)
     ON DELETE CASCADE
-    ON UPDATE CASCADE
+    ON UPDATE CASCADE,
+  INDEX (codigo)
 )
   ENGINE = INNODB;
 
@@ -110,8 +111,8 @@ CREATE TABLE IF NOT EXISTS oferta
 (
   morada      VARCHAR(255)     NOT NULL,
   codigo      INT(11) UNSIGNED NOT NULL,
-  data_inicio INT(11) UNSIGNED NOT NULL,
-  data_fim    INT(11) UNSIGNED NOT NULL,
+  data_inicio DATETIME         NOT NULL,
+  data_fim    DATETIME         NOT NULL,
   tarifa      DECIMAL(10, 2)   NOT NULL,
   PRIMARY KEY (morada, codigo, data_inicio),
   FOREIGN KEY (morada, codigo) REFERENCES alugavel (morada, codigo)
@@ -122,7 +123,7 @@ CREATE TABLE IF NOT EXISTS oferta
 
 CREATE TABLE IF NOT EXISTS reserva
 (
-  numero INT(11) UNSIGNED NOT NULL,
+  numero INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (numero)
 )
   ENGINE = INNODB;
@@ -131,7 +132,7 @@ CREATE TABLE IF NOT EXISTS aluga
 (
   morada      VARCHAR(255)     NOT NULL,
   codigo      INT(11) UNSIGNED NOT NULL,
-  data_inicio INT(11) UNSIGNED NOT NULL,
+  data_inicio DATETIME         NOT NULL,
   nif         INT(9) UNSIGNED  NOT NULL,
   numero      INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (morada, codigo, data_inicio, nif, numero),
@@ -150,7 +151,7 @@ CREATE TABLE IF NOT EXISTS aluga
 CREATE TABLE IF NOT EXISTS paga
 (
   numero INT(11) UNSIGNED NOT NULL,
-  data   INT(11) UNSIGNED NOT NULL,
+  data   DATE             NOT NULL,
   metodo VARCHAR(255)     NOT NULL,
   PRIMARY KEY (numero),
   FOREIGN KEY (numero) REFERENCES reserva (numero)
@@ -162,7 +163,7 @@ CREATE TABLE IF NOT EXISTS paga
 CREATE TABLE IF NOT EXISTS estado
 (
   numero      INT(11) UNSIGNED NOT NULL,
-  `timestamp` INT(11) UNSIGNED NOT NULL,
+  `timestamp` DATETIME         NOT NULL,
   estado      VARCHAR(255)     NOT NULL,
   PRIMARY KEY (numero, `timestamp`),
   FOREIGN KEY (numero) REFERENCES reserva (numero)
@@ -170,3 +171,19 @@ CREATE TABLE IF NOT EXISTS estado
     ON UPDATE CASCADE
 )
   ENGINE = INNODB;
+
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS `alugavel_codigo`$$
+#USE `ist182058`
+$$
+CREATE TRIGGER `alugavel_codigo`
+BEFORE INSERT ON `alugavel`
+FOR EACH ROW
+  BEGIN
+    SET @new_codigo = (SELECT ifnull((SELECT max(codigo) + 1
+                                      FROM alugavel
+                                      WHERE morada = new.morada), 1));
+    SET new.codigo = @new_codigo;
+  END$$
+DELIMITER ;

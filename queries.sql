@@ -32,10 +32,13 @@ GROUP BY a.nif
 HAVING COUNT(DISTINCT f.id) = 1;
 
 # 4. Qual o montante total realizado (pago) por cada espaço durante o ano de 2016? Assuma que a tarifa indicada na oferta é diária. Deve considerar os casos em que o espaço foi alugado totalmente ou por postos.
-#SELECT * FROM paga oferta o WHERE ;
+SELECT DATEDIFF(FROM_UNIXTIME(o.data_inicio), FROM_UNIXTIME(o.data_fim))
+FROM paga p LEFT JOIN aluga a ON a.numero = p.numero
+  LEFT JOIN oferta o ON o.morada = a.morada AND o.codigo = a.codigo
+WHERE 1
+GROUP BY o.codigo;
 
 # 5. Quais os espaços de trabalho cujos postos nele contidos foram todos alugados? (Poralugado entende-se um posto de trabalho que tenha pelo menos uma oferta aceite,independentemente das suas datas.)
-/*SELECT * FROM estado e LEFT JOIN aluga a ON a.numero = e.numero LEFT JOIN posto p ON p.morada = a.morada AND p.codigo = a.codigo WHERE e.estado = 'aceite';*/
 SELECT
   p.morada,
   p.codigo
@@ -43,11 +46,6 @@ FROM posto p LEFT JOIN aluga a ON a.morada = p.morada AND a.codigo = p.codigo
   LEFT JOIN estado e ON e.numero = a.numero
 WHERE e.estado = 'aceite'
 GROUP BY p.morada, p.codigo;
-/*SELECT *
-FROM espaco e LEFT JOIN posto p ON p.morada = e.morada AND p.codigo_espaco = e.codigo
-  LEFT JOIN oferta o ON o.codigo;*/
-
-
 
 
 
