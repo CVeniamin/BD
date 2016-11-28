@@ -21,3 +21,15 @@ insert into fiscal values (444756563,'Nur Inc');
 insert into edificio VALUES ('Dusty Rabbit Knoll'), ('Noble Path'), ('Silent Barn Promenade'), ('Middle Pond Landing'), ('Foggy Island Terrace'), ('Harvest Willow Passage');
 
 insert into alugavel values ('Dusty Rabbit Knoll',1,1),('Noble Path',2,2),('Silent Barn Promenade',3,3),('Middle Pond Landing',4,4),('Foggy Island Terrace',5,5),('Harvest Willow Passage',6,6);
+
+
+insert into arrenda values ('Dusty Rabbit Knoll',1,950245011),('Noble Path',2,366165710),('Silent Barn Promenade',3,808866092),('Middle Pond Landing',4,950245011),('Foggy Island Terrace',5,362985512),('Harvest Willow Passage',6,842505457);
+
+
+insert into fiscaliza values (123,'Dusty Rabbit Knoll',1),(345,'Noble Path',2),(567,'Silent Barn Promenade',3),(789,'Middle Pond Landing',4),(910,'Foggy Island Terrace',5);
+
+
+
+insert into espaco values ('Dusty Rabbit Knoll',1),('Noble Path',2),('Silent Barn Promenade',3),('Middle Pond Landing',4),('Foggy Island Terrace',5),('Harvest Willow Passage',6);
+
+insert into posto values ('Dusty Rabbit Knoll',11,1),('Noble Path',22,2),('Silent Barn Promenade',33,3),('Middle Pond Landing',44,4);

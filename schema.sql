@@ -75,7 +75,7 @@ create table if not exists alugavel
 create table if not exists arrenda
    (morada 	varchar(255)	not null,
     codigo 	int(11)	not null,
-    nif 	int(9) not null unsigned,
+    nif 	int(9) unsigned not null ,
     primary key(morada,codigo),
     foreign key(nif) references utilizador(nif),
     foreign key(morada,codigo) references alugavel(morada,codigo) on delete cascade);
@@ -102,8 +102,8 @@ create table if not exists posto
     foreign key(morada,codigo_espaco) references espaco(morada,codigo) on delete cascade);
 
 create table if not exists oferta
-   (morada  varchar(255)    not null,
-    codigo  int(11) not null,
+   (morada  varchar(255) not null,
+    codigo  int(11) unsigned not null,
     data_inicio int(11) unsigned  not null,
     data_fim int(11) unsigned  not null,
     tarifa decimal(10,2)  not null,
