@@ -29,6 +29,7 @@ insert into fiscaliza values (123,'Dusty Rabbit Knoll',1),(345,'Noble Path',2),(
 
 insert into espaco values ('Dusty Rabbit Knoll',1),('Noble Path',2),('Silent Barn Promenade',3),('Middle Pond Landing',4),('Foggy Island Terrace',5),('Harvest Willow Passage',6);
 
-insert into posto values ('Dusty Rabbit Knoll',11,1),('Noble Path',22,2),('Silent Barn Promenade',33,3),('Middle Pond Landing',44,4);
+insert into posto values ('Dusty Rabbit Knoll',1,2),('Noble Path',2,2),('Silent Barn Promenade',3,3),('Middle Pond
+Landing',2,4);
 
 insert into reserva values (1);
