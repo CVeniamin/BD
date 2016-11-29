@@ -186,4 +186,5 @@ FOR EACH ROW
                                       WHERE morada = new.morada), 1));
     SET new.codigo = @new_codigo;
   END$$
+
 DELIMITER ;
