@@ -21,56 +21,40 @@ insert into fiscal values (444756563,'Nur Inc');
 # espaco 1
 SET @morada = 'Dusty Rabbit Knoll';
 insert into edificio VALUES (@morada);
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1
-INSERT INTO espaco VALUES (@morada, LAST_INSERT_ID()); # espaco 1
-SET @espaco_last_id = LAST_INSERT_ID();
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 1
-INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 1
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 2
-INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 2
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 3
-INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 3
+CALL INSERT_ESPACO(@morada, NULL);
+SET @espaco_id = LAST_INSERT_ID();
+CALL INSERT_POSTO(@morada, @espaco_id, NULL);
+CALL INSERT_POSTO(@morada, @espaco_id, NULL);
+CALL INSERT_POSTO(@morada, @espaco_id, NULL);
 
 #edificio 2
 SET @morada = 'Noble Path';
 insert into edificio VALUES (@morada);
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1
-INSERT INTO espaco VALUES (@morada, LAST_INSERT_ID()); # espaco 1
-SET @espaco_last_id = LAST_INSERT_ID();
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 1
-INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 1
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 2
-INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 2
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 3
-INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 3
+CALL INSERT_ESPACO(@morada, NULL);
+SET @espaco_id = LAST_INSERT_ID();
+CALL INSERT_POSTO(@morada, @espaco_id, NULL);
+CALL INSERT_POSTO(@morada, @espaco_id, NULL);
+CALL INSERT_POSTO(@morada, @espaco_id, NULL);
 
 
 #edificio 3
 SET @morada = 'Silent Barn Promenade';
 insert into edificio VALUES (@morada);
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1
-INSERT INTO espaco VALUES (@morada, LAST_INSERT_ID()); # espaco 1
-SET @espaco_last_id = LAST_INSERT_ID();
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 1
-INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 1
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 2
-INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 2
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 3
-INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 3
+CALL INSERT_ESPACO(@morada, NULL);
+SET @espaco_id = LAST_INSERT_ID();
+CALL INSERT_POSTO(@morada, @espaco_id, NULL);
+CALL INSERT_POSTO(@morada, @espaco_id, NULL);
+CALL INSERT_POSTO(@morada, @espaco_id, NULL);
 
 
 #edificio 4
 SET @morada = 'Middle Pond Landing';
 insert into edificio VALUES (@morada);
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1
-INSERT INTO espaco VALUES (@morada, LAST_INSERT_ID()); # espaco 1
-SET @espaco_last_id = LAST_INSERT_ID();
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 1
-INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 1
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 2
-INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 2
-INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 3
-INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 3
+CALL INSERT_ESPACO(@morada, NULL);
+SET @espaco_id = LAST_INSERT_ID();
+CALL INSERT_POSTO(@morada, @espaco_id, NULL);
+CALL INSERT_POSTO(@morada, @espaco_id, NULL);
+CALL INSERT_POSTO(@morada, @espaco_id, NULL);
 
 #
 # insert into espaco values('Foggy Island Terrace',5);

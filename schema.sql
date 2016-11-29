@@ -181,10 +181,34 @@ CREATE TRIGGER `alugavel_codigo`
 BEFORE INSERT ON `alugavel`
 FOR EACH ROW
   BEGIN
-    SET @new_codigo = (SELECT ifnull((SELECT max(codigo) + 1
-                                      FROM alugavel
-                                      WHERE morada = new.morada), 1));
+    /*    SET NEW.codigo = (SELECT IFNULL(MAX(codigo), 0) + 1
+                                         FROM alugavel
+                                         WHERE morada = NEW.morada);*/
+    SET @new_codigo = (SELECT ifnull(max(codigo), 0) + 1
+                       FROM alugavel
+                       WHERE morada = new.morada);
     SET new.codigo = @new_codigo;
+  END$$
+
+DROP PROCEDURE IF EXISTS `INSERT_ALUGAVEL`$$
+CREATE PROCEDURE `INSERT_ALUGAVEL`(IN morada VARCHAR(255), IN foto MEDIUMBLOB)
+  BEGIN
+    INSERT INTO alugavel VALUES (morada, 0, foto);
+    SELECT LAST_INSERT_ID(@new_codigo);
+  END$$
+
+DROP PROCEDURE IF EXISTS `INSERT_ESPACO`$$
+CREATE PROCEDURE `INSERT_ESPACO`(IN morada VARCHAR(255), IN foto MEDIUMBLOB)
+  BEGIN
+    CALL INSERT_ALUGAVEL(morada, foto);
+    INSERT INTO espaco VALUES (morada, LAST_INSERT_ID());
+  END$$
+
+DROP PROCEDURE IF EXISTS `INSERT_POSTO`$$
+CREATE PROCEDURE `INSERT_POSTO`(IN morada VARCHAR(255), IN espaco_id INT(11), IN foto MEDIUMBLOB)
+  BEGIN
+    CALL INSERT_ALUGAVEL(morada, foto);
+    INSERT INTO posto VALUES (morada, LAST_INSERT_ID(), espaco_id);
   END$$
 
 DELIMITER ;
