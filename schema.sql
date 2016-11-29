@@ -144,7 +144,8 @@ CREATE TABLE IF NOT EXISTS aluga
     ON UPDATE CASCADE,
   FOREIGN KEY (nif) REFERENCES utilizador (nif)
     ON DELETE CASCADE
-    ON UPDATE CASCADE
+    ON UPDATE CASCADE,
+  INDEX (numero)
 )
   ENGINE = INNODB;
 
@@ -209,6 +210,35 @@ CREATE PROCEDURE `INSERT_POSTO`(IN morada VARCHAR(255), IN espaco_id INT(11), IN
   BEGIN
     CALL INSERT_ALUGAVEL(morada, foto);
     INSERT INTO posto VALUES (morada, LAST_INSERT_ID(), espaco_id);
+  END$$
+
+
+DROP PROCEDURE IF EXISTS `INSERT_OFERTA`$$
+CREATE PROCEDURE `INSERT_OFERTA`(IN morada VARCHAR(255), IN codigo INT(11), IN foto MEDIUMBLOB)
+  BEGIN
+    CALL INSERT_ALUGAVEL(morada, foto);
+    INSERT INTO posto VALUES (morada, LAST_INSERT_ID(), espaco_id);
+  END$$
+
+CREATE TRIGGER `aluga_numero`
+BEFORE INSERT ON `aluga`
+FOR EACH ROW
+  BEGIN
+    /*    SET NEW.codigo = (SELECT IFNULL(MAX(codigo), 0) + 1
+                                         FROM alugavel
+                                         WHERE morada = NEW.morada);*/
+    SET @new_numero = (SELECT ifnull(max(numero), 0) + 1
+                       FROM aluga
+                       WHERE morada = new.morada);
+    SET new.numero = @new_numero;
+  END$$
+
+DROP PROCEDURE IF EXISTS `INSERT_ALUGA`$$
+CREATE PROCEDURE `INSERT_ALUGA`(IN morada VARCHAR(255),IN codigo INT(11), IN data_inicio DATETIME,IN nif INT(9))
+  BEGIN
+    INSERT INTO reserva VALUE ();
+    INSERT INTO aluga VALUES (morada,codigo,data_inicio,nif,0);
+#     SELECT LAST_INSERT_ID(@new_numero);
   END$$
 
 DELIMITER ;

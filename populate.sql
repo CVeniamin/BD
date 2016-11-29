@@ -56,15 +56,7 @@ CALL INSERT_POSTO(@morada, @espaco_id, NULL);
 CALL INSERT_POSTO(@morada, @espaco_id, NULL);
 CALL INSERT_POSTO(@morada, @espaco_id, NULL);
 
-#
-# insert into espaco values('Foggy Island Terrace',5);
-# insert into espaco values('Harvest Willow Passage',6);
-#
-# insert into posto values('Noble Path',2,2);
-# insert into posto values('Silent Barn Promenade',3,3);
-# insert into posto values('Middle Pond Landing',2,4);
-
-insert into reserva values (1);
+insert into reserva values ();
 
 insert into arrenda values ('Dusty Rabbit Knoll',1,950245011);
 insert into arrenda values('Noble Path',2,366165710);
@@ -73,7 +65,17 @@ insert into arrenda values('Middle Pond Landing',4,950245011);
 # insert into arrenda values('Foggy Island Terrace',5,362985512);
 # insert into arrenda values('Harvest Willow Passage',6,842505457);
 
-insert into aluga values ('Dusty Rabbit Knoll',1,'02-01-2016',950245011,1);
+insert into fiscaliza values (258777899,'Dusty Rabbit Knoll',1);
+insert into fiscaliza values(774608544,'Noble Path',2);
+insert into fiscaliza values(774608544,'Silent Barn Promenade',3);
+insert into fiscaliza values(444756563,'Middle Pond Landing',4);
 
-insert into fiscaliza values (258777899,'Dusty Rabbit Knoll',1),(774608544,'Noble Path',2),(774608544,'Silent
-Barn Promenade',NULL ),(444756563,'Middle Pond Landing',4),(926716989,'Foggy Island Terrace',5);
+
+insert into oferta values ('Dusty Rabbit Knoll',1,'2016-01-02 16:00:00','2016-01-04 16:00:00',20);
+insert into oferta values ('Noble Path',1,'2016-01-02 16:00:00','2016-01-06 16:00:00',25);
+insert into oferta values ('Silent Barn Promenade',1,'2016-01-02 16:00:00','2016-01-06 16:00:00',27);
+
+
+CALL INSERT_ALUGA('Dusty Rabbit Knoll',1,'2016-01-02 16:00:00',950245011);
+CALL INSERT_ALUGA('Silent Barn Promenade',1,'2016-01-02 16:00:00',950245011);
+CALL INSERT_ALUGA('Noble Path',1,'2016-01-03 16:00:00',950245011);
