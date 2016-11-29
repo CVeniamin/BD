@@ -19,11 +19,11 @@ insert into fiscal values (774608544,'Omobolanle Ltd');
 insert into fiscal values (444756563,'Nur Inc');
 
 # espaco 1
-SELECT @morada = 'Dusty Rabbit Knoll';
+SET @morada = 'Dusty Rabbit Knoll';
 insert into edificio VALUES (@morada);
 INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1
 INSERT INTO espaco VALUES (@morada, LAST_INSERT_ID()); # espaco 1
-SELECT @espaco_last_id = LAST_INSERT_ID();
+SET @espaco_last_id = LAST_INSERT_ID();
 INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 1
 INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 1
 INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 2
@@ -32,11 +32,11 @@ INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 3
 INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 3
 
 #edificio 2
-SELECT @morada = 'Noble Path';
+SET @morada = 'Noble Path';
 insert into edificio VALUES (@morada);
 INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1
 INSERT INTO espaco VALUES (@morada, LAST_INSERT_ID()); # espaco 1
-SELECT @espaco_last_id = LAST_INSERT_ID();
+SET @espaco_last_id = LAST_INSERT_ID();
 INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 1
 INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 1
 INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 2
@@ -46,11 +46,11 @@ INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 
 
 
 #edificio 3
-SELECT @morada = 'Silent Barn Promenade';
+SET @morada = 'Silent Barn Promenade';
 insert into edificio VALUES (@morada);
 INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1
 INSERT INTO espaco VALUES (@morada, LAST_INSERT_ID()); # espaco 1
-SELECT @espaco_last_id = LAST_INSERT_ID();
+SET @espaco_last_id = LAST_INSERT_ID();
 INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 1
 INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 1
 INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 2
@@ -60,11 +60,11 @@ INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 
 
 
 #edificio 4
-SELECT @morada = 'Middle Pond Landing';
+SET @morada = 'Middle Pond Landing';
 insert into edificio VALUES (@morada);
 INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1
 INSERT INTO espaco VALUES (@morada, LAST_INSERT_ID()); # espaco 1
-SELECT @espaco_last_id = LAST_INSERT_ID();
+SET @espaco_last_id = LAST_INSERT_ID();
 INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 1
 INSERT INTO posto VALUES (@morada, LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 1
 INSERT INTO alugavel VALUES (@morada, NULL, NULL); # alugavel espaco 1, posto 2
