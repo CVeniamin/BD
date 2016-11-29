@@ -27,17 +27,24 @@ insert into arrenda values ('Dusty Rabbit Knoll',1,950245011),('Noble Path',2,36
 
 insert into fiscaliza values (123,'Dusty Rabbit Knoll',1),(345,'Noble Path',2),(567,'Silent Barn Promenade',3),(789,'Middle Pond Landing',4),(910,'Foggy Island Terrace',5);
 
-insert into espaco values ('Dusty Rabbit Knoll',1);
+# espaco 1
+INSERT INTO alugavel VALUES ('Dusty Rabbit Knoll', NULL, NULL); # alugavel espaco 1
+INSERT INTO espaco VALUES ('Dusty Rabbit Knoll', LAST_INSERT_ID()); # espaco 1
+SELECT @espaco_last_id = LAST_INSERT_ID();
+INSERT INTO alugavel VALUES ('Dusty Rabbit Knoll', NULL, NULL); # alugavel espaco 1, posto 1
+INSERT INTO posto VALUES ('Dusty Rabbit Knoll', LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 1
+INSERT INTO alugavel VALUES ('Dusty Rabbit Knoll', NULL, NULL); # alugavel espaco 1, posto 2
+INSERT INTO posto VALUES ('Dusty Rabbit Knoll', LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 2
+INSERT INTO alugavel VALUES ('Dusty Rabbit Knoll', NULL, NULL); # alugavel espaco 1, posto 3
+INSERT INTO posto VALUES ('Dusty Rabbit Knoll', LAST_INSERT_ID(), @espaco_last_id); # espaco 1, posto 3
+
+
 insert into espaco values('Noble Path',2);
 insert into espaco values('Silent Barn Promenade',3);
 insert into espaco values('Middle PondLanding',4);
 insert into espaco values('Foggy Island Terrace',5);
 insert into espaco values('Harvest Willow Passage',6);
 
-insert into posto values ('Dusty Rabbit Knoll',1,2);
-insert into posto values ('Dusty Rabbit Knoll',2,2);
-insert into posto values ('Dusty Rabbit Knoll',3,2);
-insert into posto values ('Dusty Rabbit Knoll',4,2);
 insert into posto values('Noble Path',2,2);
 insert into posto values('Silent Barn Promenade',3,3);
 insert into posto values('Middle Pond Landing',2,4);
