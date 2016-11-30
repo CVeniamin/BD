@@ -1,8 +1,15 @@
 # 1. Quais os espaços com postos que nunca foram alugados?
-SELECT DISTINCT e.codigo
+SELECT DISTINCT e.morada,e.codigo
 FROM espaco e LEFT JOIN posto p ON p.morada = e.morada AND p.codigo_espaco = e.codigo
   LEFT JOIN aluga a ON a.codigo = p.codigo
 WHERE a.numero IS NULL;
+-- OR
+SELECT DISTINCT e.morada,e.codigo,p.codigo
+FROM espaco e LEFT JOIN posto p ON p.morada = e.morada AND p.codigo_espaco = e.codigo
+  LEFT JOIN aluga a ON a.codigo = p.codigo
+WHERE a.numero IS NULL AND p.codigo IS NOT NULL;
+
+
 
 # 2. Quais edifícios com um número de reservas superior à média?
 CREATE TEMPORARY TABLE edificios SELECT
@@ -26,10 +33,13 @@ HAVING COUNT(*) > (SELECT AVG(t.cnt)
                          GROUP BY an.morada) t);
 
 # 3. Quais utilizadores cujos alugáveis foram fiscalizados sempre pelo mesmo fiscal?
-SELECT a.nif
-FROM arrenda a LEFT JOIN fiscaliza f ON f.codigo = a.codigo AND f.morada = a.morada
-GROUP BY a.nif
-HAVING COUNT(DISTINCT f.id) = 1;
+SELECT u.nome, u.nif
+FROM  user u NATURAL JOIN (SELECT a.nif as nif
+                           FROM arrenda a LEFT JOIN fiscaliza f ON f.codigo = a.codigo AND f.morada = a.morada
+                           GROUP BY a.nif
+                           HAVING COUNT(DISTINCT f.id) = 1) as utilizador
+WHERE u.nif = utilizador.nif;
+
 
 # 4. Qual o montante total realizado (pago) por cada espaço durante o ano de 2016? Assuma que a tarifa indicada na oferta é diária.
 # Deve considerar os casos em que o espaço foi alugado totalmente ou por postos.
