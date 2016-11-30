@@ -15,32 +15,39 @@
         <div class="col-md-4">
             <h1>Inserir Edificios</h1>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <p>Morada: <input type="text" class="form-control" name="morada" value=""/></p>
-                <p><input type="submit" class="btn btn-info" value="Inserir Edificio"/></p>
+                <input type="text" placeholder="Morada" class="form-control" name="morada" value=""/>
+                <br>
+                <input type="submit" class="btn btn-info" value="Inserir Edificio"/>
             </form>
         </div>
         <div class="col-md-4">
             <h1>Inserir Espaços</h1>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <p>Morada: <input type="text" class="form-control" name="morada_espaco" value=""/></p>
-                <p>Codigo: <input type="text" class="form-control" name="codigo" value=""/></p>
-                <p>Foto url: <input type="text" class="form-control" name="foto_url" value=""/></p>
+                <input type="text" placeholder="Morada" class="form-control" name="morada_espaco" value=""/>
+                <br>
+                <input type="text" placeholder="Codigo" class="form-control" name="codigo" value=""/>
+                <br>
+                <input type="text" placeholder="Foto url" class="form-control" name="foto_url" value=""/>
+                <br>
                 <!--    <p>Numero: <input type="number" name="codigo_espaco" value=""/></p>-->
-                <p><input type="submit" class="btn btn-info" value="Inserir Espaço"/></p>
+                <input type="submit" class="btn btn-info" value="Inserir Espaço"/>
             </form>
         </div>
 
         <div class="col-md-4">
             <h1>Inserir Postos</h1>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <p>Morada: <input type="text" class="form-control" name="morada_posto" value="<?php echo(
-                   isset($_GET['espaco_posto']) ?  htmlspecialchars($_GET['espaco_posto']) : '')?>"/></p>
-                <p>Codigo Espaco: <input type="text" class="form-control" name="codigo_espaco" value="<?php echo(
-                    isset($_GET['codigo_espaco']) ?  htmlspecialchars($_GET['codigo_espaco']) : '')?>"/></p>
-                <p>Codigo Posto: <input type="text" class="form-control" name="codigo_posto" value=""/></p>
-                <p>Foto url: <input type="text" class="form-control" name="foto_url_posto" value=""/></p>
-                <!--    <p>Numero: <input type="number" name="codigo_espaco" value=""/></p>-->
-                <p><input type="submit" class="btn btn-info" value="Inserir Posto"/></p>
+                <input type="text" placeholder="Morada" class="form-control" name="morada_posto" value="<?php echo(
+                   isset($_GET['espaco_posto']) ?  htmlspecialchars($_GET['espaco_posto']) : '')?>"/>
+                <br>
+                <input type="text" placeholder="Codigo Espaco" class="form-control" name="codigo_espaco" value="<?php echo(
+                    isset($_GET['codigo_espaco']) ?  htmlspecialchars($_GET['codigo_espaco']) : '')?>"/>
+                <br>
+                <input type="text" placeholder="Codigo Posto" class="form-control" name="codigo_posto" value=""/>
+                <br>
+                <input type="text" placeholder="Foto url" class="form-control" name="foto_url_posto" value=""/>
+                <br>
+                <input type="submit" class="btn btn-info" value="Inserir Posto"/>
             </form>
         </div>
     </div>
@@ -77,7 +84,7 @@ function test_input($data) {
 }
 
 function render_view_edificio($result) {
-    echo ("<table class=\"table table-striped\">\n");
+    echo ("<table class=\"table table-striped table-hover\">\n");
     echo ("<tr><td>morada</td></tr>\n");
 
     foreach ($result as $row) {
@@ -91,7 +98,7 @@ function render_view_edificio($result) {
 }
 
 function render_view_espaco($result) {
-    echo ("<table class=\"table table-striped\" >\n");
+    echo ("<table class=\"table table-striped table-hover\" >\n");
     echo ("<tr><td>morada</td><td>codigo</td></tr>\n");
 
     foreach ($result as $row) {
@@ -110,7 +117,7 @@ function render_view_espaco($result) {
 }
 
 function render_view_posto($result) {
-    echo ("<table class=\"table table-striped\" >\n");
+    echo ("<table class=\"table table-striped table-hover\" >\n");
     echo ("<tr><td>morada</td><td>codigo</td><td>codigo_espaco</td></tr>\n");
 
     foreach ($result as $row) {
