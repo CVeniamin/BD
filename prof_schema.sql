@@ -56,14 +56,14 @@ create table espaco (
   morada varchar(255) not null,
   codigo varchar(255) not null,
   primary key(morada, codigo),
-  foreign key(morada, codigo) references alugavel(morada, codigo));
+  foreign key(morada, codigo) references alugavel(morada, codigo) ON DELETE CASCADE);
 
 create table posto (
   morada varchar(255) not null,
   codigo varchar(255) not null,
   codigo_espaco varchar(255) not null,
   primary key(morada, codigo),
-  foreign key(morada, codigo) references alugavel(morada, codigo),
+  foreign key(morada, codigo) references alugavel(morada, codigo) ON DELETE CASCADE,
   foreign key(morada, codigo_espaco) references espaco(morada, codigo));
 
 create table oferta (

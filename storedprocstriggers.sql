@@ -66,13 +66,14 @@ CREATE PROCEDURE `INSERT_ALUGA`(IN morada VARCHAR(255),IN codigo INT(11), IN dat
 #     SELECT LAST_INSERT_ID(@new_numero);
   END$$
 
-
 DROP TRIGGER IF EXISTS `check_date`$$
-CREATE TRIGGER check_date 
-BEFORE INSERT ON oferta 
+
+CREATE TRIGGER `check_date`
+BEFORE UPDATE ON `oferta`
 FOR EACH ROW
   BEGIN
-    IF  (new.morada = morada AND new.codigo = codigo AND new.data_inicio >= data_inicio AND  new.data_fim <= data_fim)  THEN
+    IF (new.morada = old.morada AND new.codigo = old.codigo
+        AND new.data_inicio > old.data_inicio AND new.data_fim <=old.data_fim) THEN
       CALL data_oferta_indisponivel();
     END IF;
   END $$

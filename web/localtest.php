@@ -1,6 +1,8 @@
 <?php
     require_once './db.php';
     ob_start();
+    $page = $_SERVER['PHP_SELF'];
+    $sec  = "3";
 ?>
 <html>
 <head>
@@ -84,6 +86,7 @@ function test_input($data) {
 }
 
 function render_view_edificio($result) {
+    global $page;
     echo ("<table class=\"table table-striped table-hover\">\n");
     echo ("<tr><td>morada</td></tr>\n");
 
@@ -91,13 +94,14 @@ function render_view_edificio($result) {
         echo ("<tr><td>");
         echo ($row['morada']);
         echo ("</td>");
-        echo ("<td><a href=\"localtest.php?edificio={$row['morada']}\">Remover Edificio</a></td>\n");
+        echo ("<td><a href=\"{$page}?edificio={$row['morada']}\">Remover Edificio</a></td>\n");
         echo ("</tr>\n");
     }
     echo ("</table>\n");
 }
 
 function render_view_espaco($result) {
+    global $page;
     echo ("<table class=\"table table-striped table-hover\" >\n");
     echo ("<tr><td>morada</td><td>codigo</td></tr>\n");
 
@@ -108,8 +112,8 @@ function render_view_espaco($result) {
         echo ("<td>");
         echo ($row['codigo']);
         echo ("</td>");
-        echo ("<td><a href=\"localtest.php?espaco={$row['morada']}&codigo={$row['codigo']}\">Remover Espaco</a></td>\n");
-        echo ("<td><a href=\"localtest.php?espaco_posto={$row['morada']}&codigo_espaco={$row['codigo']}\">Adicionar 
+        echo ("<td><a href=\"{$page}?espaco={$row['morada']}&codigo={$row['codigo']}\">Remover Espaco</a></td>\n");
+        echo ("<td><a href=\"{$page}?espaco_posto={$row['morada']}&codigo_espaco={$row['codigo']}\">Adicionar 
         Posto</a></td>\n");
         echo ("</tr>\n");
     }
@@ -117,6 +121,7 @@ function render_view_espaco($result) {
 }
 
 function render_view_posto($result) {
+    global $page;
     echo ("<table class=\"table table-striped table-hover\" >\n");
     echo ("<tr><td>morada</td><td>codigo</td><td>codigo_espaco</td></tr>\n");
 
@@ -130,15 +135,14 @@ function render_view_posto($result) {
         echo ("<td>");
         echo ($row['codigo_espaco']);
         echo ("</td>");
-        echo ("<td><a href=\"localtest.php?posto={$row['morada']}&codigo={$row['codigo']}&codigo_espaco={$row
+        echo ("<td><a href=\"{$page}?posto={$row['morada']}&codigo={$row['codigo']}&codigo_espaco={$row
         ['codigo_espaco']}\">Remover Posto</a></td>\n");
         echo ("</tr>\n");
     }
     echo ("</table>\n");
 }
 try {
-    $page = $_SERVER['PHP_SELF'];
-    $sec  = "3";
+
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["morada"])) {
         $morada = test_input($_POST["morada"]);
