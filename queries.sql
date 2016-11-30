@@ -31,13 +31,14 @@ FROM arrenda a LEFT JOIN fiscaliza f ON f.codigo = a.codigo AND f.morada = a.mor
 GROUP BY a.nif
 HAVING COUNT(DISTINCT f.id) = 1;
 
-# 4. Qual o montante total realizado (pago) por cada espaço durante o ano de 2016? Assuma que a tarifa indicada na oferta é diária. Deve considerar os casos em que o espaço foi alugado totalmente ou por postos.
+# 4. Qual o montante total realizado (pago) por cada espaço durante o ano de 2016? Assuma que a tarifa indicada na oferta é diária.
+# Deve considerar os casos em que o espaço foi alugado totalmente ou por postos.
 SELECT
   a.morada,
-  SUM(DATEDIFF(GREATEST(o.data_inicio, '01-01-2016'), LEAST(o.data_fim, '01-01-2017')) * o.tarifa) AS total
+  SUM(DATEDIFF(GREATEST(o.data_inicio, '2016-01-01'), LEAST(o.data_fim, '2017-01-01')) * o.tarifa) AS total
 FROM paga p LEFT JOIN aluga a ON a.numero = p.numero
   LEFT JOIN oferta o ON o.morada = a.morada AND o.codigo = a.codigo
-WHERE o.data_fim >= '01-01-2016' AND o.data_inicio < '01-01-2017'
+WHERE o.data_fim >= '2016-01-01' AND o.data_inicio < '2017-01-01'
 GROUP BY o.codigo;
 
 # 5. Quais os espaços de trabalho cujos postos nele contidos foram todos alugados? (Poralugado entende-se um posto de trabalho que tenha pelo menos uma oferta aceite,independentemente das suas datas.)
