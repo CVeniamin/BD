@@ -31,7 +31,7 @@
             <h1>Inserir Postos</h1>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <p>Morada: <input type="text" class="form-control" name="morada_posto" value=""/></p>
-                <p>Numero Espaco: <input type="number" name="codigo_espaco" value=""/></p>
+                <p>Numero Espaco: <input type="number" min="1" codigo_espaco" value=""/></p>
                 <!--    <p>Numero: <input type="number" name="codigo_espaco" value=""/></p>-->
                 <p><input type="submit" class="btn btn-info" value="Inserir Posto"/></p>
             </form>
@@ -135,10 +135,6 @@ try {
     if ($_SERVER["REQUEST_METHOD"] == "POST" && (!empty($_POST["morada_espaco"]))) {
         $morada_espaco = test_input($_POST["morada_espaco"]);
         $stmt   = $db->exec("CALL INSERT_ESPACO('$morada_espaco',NULL);");
-//        $stmt->execute(array(
-//            $morada_espaco,
-//            $morada_espaco,
-//        ));
         $page = $_SERVER['PHP_SELF'];
         $sec  = "5";
         header("Refresh: $sec; url=$page");
