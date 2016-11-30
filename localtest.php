@@ -32,7 +32,7 @@
             <h1>Inserir Postos</h1>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <p>Morada: <input type="text" class="form-control" name="morada_posto" value=""/></p>
-                <p>Numero Espaco: <input type="number" min="1" codigo_espaco" value=""/></p>
+                <p>Numero Espaco: <input type="number" min="1" name="codigo_espaco" value=""/></p>
                 <!--    <p>Numero: <input type="number" name="codigo_espaco" value=""/></p>-->
                 <p><input type="submit" class="btn btn-info" value="Inserir Posto"/></p>
             </form>
