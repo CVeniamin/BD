@@ -130,6 +130,8 @@ function render_view_posto($result) {
     echo ("</table>\n");
 }
 try {
+    $page = $_SERVER['PHP_SELF'];
+    $sec  = "3";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["morada"])) {
         $morada = test_input($_POST["morada"]);
@@ -137,8 +139,6 @@ try {
         $stmt->execute(array(
             $morada
         ));
-        $page = $_SERVER['PHP_SELF'];
-        $sec  = "5";
         header("Refresh: $sec; url=$page");
     }
 
@@ -154,8 +154,6 @@ try {
             $codigo,
             $foto_url,
         ));
-        $page = $_SERVER['PHP_SELF'];
-        $sec  = "5";
         header("Refresh: $sec; url=$page");
     }
     if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["morada_posto"]) && !empty($_POST["codigo_posto"]) &&
@@ -172,8 +170,6 @@ try {
             $foto_url_posto
         ));
 //        $stmt   = $db->exec("CALL INSERT_POSTO('$morada_posto', '$codigo_posto', NULL);");
-        $page = $_SERVER['PHP_SELF'];
-        $sec  = "5";
         header("Refresh: $sec; url=$page");
     }
 
@@ -204,7 +200,7 @@ try {
         $db->commit();
 
         $page = $_SERVER['PHP_SELF'];
-        $sec  = "5";
+        $sec  = "3";
         header("Refresh: $sec; url=$page");
     }
 
