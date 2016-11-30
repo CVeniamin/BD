@@ -1,8 +1,6 @@
 
 DELIMITER $$
 DROP TRIGGER IF EXISTS `alugavel_codigo`$$
-#USE `ist182058`
-$$
 CREATE TRIGGER `alugavel_codigo`
 BEFORE INSERT ON `alugavel`
 FOR EACH ROW
@@ -17,24 +15,26 @@ FOR EACH ROW
   END$$
 
 DROP PROCEDURE IF EXISTS `INSERT_ALUGAVEL`$$
-CREATE PROCEDURE `INSERT_ALUGAVEL`(IN morada VARCHAR(255), IN foto MEDIUMBLOB)
+CREATE PROCEDURE `INSERT_ALUGAVEL`(IN morada VARCHAR(255), IN codigo VARCHAR(255),IN foto VARCHAR(255))
   BEGIN
-    INSERT INTO alugavel VALUES (morada, 0, foto);
-    SELECT LAST_INSERT_ID(@new_codigo);
+    INSERT INTO alugavel VALUES (morada, codigo, foto);
+#     SELECT LAST_INSERT_ID(@new_codigo);
   END$$
 
 DROP PROCEDURE IF EXISTS `INSERT_ESPACO`$$
-CREATE PROCEDURE `INSERT_ESPACO`(IN morada VARCHAR(255), IN foto MEDIUMBLOB)
+CREATE PROCEDURE `INSERT_ESPACO`(IN morada VARCHAR(255), IN codigo VARCHAR(255),IN foto VARCHAR(255))
   BEGIN
-    CALL INSERT_ALUGAVEL(morada, foto);
-    INSERT INTO espaco VALUES (morada, LAST_INSERT_ID());
+#     SELECT foto INTO @foto FROM  alugavel WHERE morada= @morada;
+    CALL INSERT_ALUGAVEL(morada,codigo,foto);
+    INSERT INTO espaco VALUES (morada,codigo);
   END$$
 
 DROP PROCEDURE IF EXISTS `INSERT_POSTO`$$
-CREATE PROCEDURE `INSERT_POSTO`(IN morada VARCHAR(255), IN espaco_id INT(11), IN foto MEDIUMBLOB)
+CREATE PROCEDURE `INSERT_POSTO`(IN morada VARCHAR(255), IN codigo_posto VARCHAR(255),IN codigo_espaco VARCHAR(255),
+  IN foto VARCHAR(255))
   BEGIN
-    CALL INSERT_ALUGAVEL(morada, foto);
-    INSERT INTO posto VALUES (morada, LAST_INSERT_ID(), espaco_id);
+    CALL INSERT_ALUGAVEL(morada,codigo_posto, foto);
+    INSERT INTO posto VALUES (morada,codigo_posto,codigo_espaco);
   END$$
 
 

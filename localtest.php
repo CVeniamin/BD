@@ -23,6 +23,8 @@
             <h1>Inserir Espaços</h1>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <p>Morada: <input type="text" class="form-control" name="morada_espaco" value=""/></p>
+                <p>Codigo: <input type="text" class="form-control" name="codigo" value=""/></p>
+                <p>Foto url: <input type="text" class="form-control" name="foto_url" value=""/></p>
                 <!--    <p>Numero: <input type="number" name="codigo_espaco" value=""/></p>-->
                 <p><input type="submit" class="btn btn-info" value="Inserir Espaço"/></p>
             </form>
@@ -31,8 +33,12 @@
         <div class="col-md-4">
             <h1>Inserir Postos</h1>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <p>Morada: <input type="text" class="form-control" name="morada_posto" value=""/></p>
-                <p>Numero Espaco: <input type="number" min="1" name="codigo_espaco" value=""/></p>
+                <p>Morada: <input type="text" class="form-control" name="morada_posto" value="<?php echo(
+                   isset($_GET['espaco_posto']) ?  htmlspecialchars($_GET['espaco_posto']) : '')?>"/></p>
+                <p>Codigo Espaco: <input type="text" class="form-control" name="codigo_espaco" value="<?php echo(
+                    isset($_GET['codigo_espaco']) ?  htmlspecialchars($_GET['codigo_espaco']) : '')?>"/></p>
+                <p>Codigo Posto: <input type="text" class="form-control" name="codigo_posto" value=""/></p>
+                <p>Foto url: <input type="text" class="form-control" name="foto_url_posto" value=""/></p>
                 <!--    <p>Numero: <input type="number" name="codigo_espaco" value=""/></p>-->
                 <p><input type="submit" class="btn btn-info" value="Inserir Posto"/></p>
             </form>
@@ -96,6 +102,8 @@ function render_view_espaco($result) {
         echo ($row['codigo']);
         echo ("</td>");
         echo ("<td><a href=\"localtest.php?espaco={$row['morada']}&codigo={$row['codigo']}\">Remover Espaco</a></td>\n");
+        echo ("<td><a href=\"localtest.php?espaco_posto={$row['morada']}&codigo_espaco={$row['codigo']}\">Adicionar 
+        Posto</a></td>\n");
         echo ("</tr>\n");
     }
     echo ("</table>\n");
@@ -115,7 +123,8 @@ function render_view_posto($result) {
         echo ("<td>");
         echo ($row['codigo_espaco']);
         echo ("</td>");
-        echo ("<td><a href=\"localtest.php?posto={$row['morada']}&codigo={$row['codigo']}&codigo_espaco={$row['codigo_espaco']}\">Remover Espaco</a></td>\n");
+        echo ("<td><a href=\"localtest.php?posto={$row['morada']}&codigo={$row['codigo']}&codigo_espaco={$row
+        ['codigo_espaco']}\">Remover Posto</a></td>\n");
         echo ("</tr>\n");
     }
     echo ("</table>\n");
@@ -133,19 +142,36 @@ try {
         header("Refresh: $sec; url=$page");
     }
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && (!empty($_POST["morada_espaco"]))) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && (!empty($_POST["morada_espaco"]) && (!empty($_POST["codigo"])) &&
+                (!empty($_POST["foto_url"])))) {
         $morada_espaco = test_input($_POST["morada_espaco"]);
-        $stmt   = $db->exec("CALL INSERT_ESPACO('$morada_espaco',NULL);");
+        $codigo = test_input($_POST["codigo"]);
+        $foto_url = test_input($_POST["foto_url"]);
+
+        $stmt   = $db->prepare("CALL INSERT_ESPACO(?,?,?);");
+        $stmt->execute(array(
+            $morada_espaco,
+            $codigo,
+            $foto_url,
+        ));
         $page = $_SERVER['PHP_SELF'];
         $sec  = "5";
         header("Refresh: $sec; url=$page");
     }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["morada_posto"]) && !empty($_POST["codigo_espaco"])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["morada_posto"]) && !empty($_POST["codigo_posto"]) &&
+        !empty($_POST["foto_url_posto"]) && !empty($_POST["codigo_espaco"])) {
         $morada_posto = test_input($_POST["morada_posto"]);
+        $codigo_posto = test_input($_POST["codigo_posto"]);
+        $foto_url_posto = test_input($_POST["foto_url_posto"]);
         $codigo_espaco = test_input($_POST["codigo_espaco"]);
-        $stmt   = $db->exec("CALL INSERT_POSTO('$morada_posto', '$codigo_espaco', NULL);");
-
+        $stmt = $db->prepare("CALL INSERT_POSTO(?,?,?,?)");
+        $stmt->execute(array(
+            $morada_posto,
+            $codigo_posto,
+            $codigo_espaco,
+            $foto_url_posto
+        ));
+//        $stmt   = $db->exec("CALL INSERT_POSTO('$morada_posto', '$codigo_posto', NULL);");
         $page = $_SERVER['PHP_SELF'];
         $sec  = "5";
         header("Refresh: $sec; url=$page");
