@@ -86,9 +86,9 @@ create table aluga (
   nif varchar(9) not null,
   numero varchar(255) not null,
   primary key(morada, codigo, data_inicio, nif, numero),
-  foreign key(morada, codigo, data_inicio) references oferta(morada, codigo, data_inicio),
-  foreign key(nif) references user(nif),
-  foreign key(numero) references reserva(numero));
+  foreign key(morada, codigo, data_inicio) references oferta(morada, codigo, data_inicio) ON DELETE CASCADE,
+  foreign key(nif) references user(nif) ON DELETE CASCADE,
+  foreign key(numero) references reserva(numero) ON DELETE CASCADE);
 
 create table paga (
   numero varchar(255) not null unique,
