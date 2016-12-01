@@ -62,7 +62,7 @@ $show_modal = false;
                 </div>
             </div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
             <h1>Todas as Ofertas</h1>
             <?php
                 $sql = "SELECT morada,codigo,data_inicio,data_fim,tarifa FROM oferta";
@@ -74,6 +74,7 @@ $show_modal = false;
         <div class="col-md-3">
                 <div class="row">
                     <div class="col-md-12">
+                        <h1>Criar Reservas</h1>
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                             <input type="text" placeholder="Morada" class="form-control" name="morada_reserva" value="<?php echo(
                             isset($_GET['espaco_aluga']) ?  htmlspecialchars($_GET['espaco_aluga']) : '')?>"/>
@@ -105,7 +106,6 @@ $show_modal = false;
                             <br>
                             <input type="submit" class="btn btn-info" value="Inserir Reserva"/>
                         </form>
-                        <h1>Criar Reservas</h1>
                     </div>
                     <div class="col-md-12">
                         <h1>Todas as Reservas</h1>
