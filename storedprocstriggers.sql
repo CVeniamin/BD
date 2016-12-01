@@ -45,4 +45,16 @@ FOR EACH ROW
     END IF;
   END; $$
 
+DROP TRIGGER IF EXISTS `check_date_pagamento`$$
+CREATE TRIGGER `check_date_pagamento`
+BEFORE INSERT ON paga
+FOR EACH ROW
+  BEGIN
+    IF EXISTS(SELECT *
+              FROM paga p, estado e
+              WHERE (p.numero = e.numero) AND ((new.data < e.time_stamp ))) THEN
+      CALL timestamp_sobreposto();
+    END IF;
+  END $$
+
 DELIMITER ;
