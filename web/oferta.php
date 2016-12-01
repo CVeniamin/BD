@@ -13,12 +13,11 @@ $show_modal = false;
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.1.1.slim.js" integrity="sha256-5i/mQ300M779N2OVDrl16lbohwXNUdzL/R2aVUXyXWA=" crossorigin="anonymous"></script>
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.css"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.en-GB.min.js"></script>
-<!--    <meta charset="iso-8859-1">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
 </head>
 <body>
@@ -75,7 +74,6 @@ $show_modal = false;
         <div class="col-md-3">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1>Criar Reservas</h1>
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                             <input type="text" placeholder="Morada" class="form-control" name="morada_reserva" value="<?php echo(
                             isset($_GET['espaco_aluga']) ?  htmlspecialchars($_GET['espaco_aluga']) : '')?>"/>
@@ -83,9 +81,16 @@ $show_modal = false;
                             <input type="text" placeholder="Codigo" class="form-control" name="codigo_reserva" value="<?php echo(
                             isset($_GET['codigo_aluga']) ?  htmlspecialchars($_GET['codigo_aluga']) : '')?>"/>
                             <br>
-                            <input type="text" placeholder="Data Inicio" class="form-control" name="data_inicio_reserva"
-                                   value="<?php echo(isset($_GET['data_inicio_aluga']) ?  htmlspecialchars($_GET['data_inicio_aluga']) : '')?>"/>
+
+                            <div id="sandbox-container">
+                                <div class="input-group date">
+                                    <input type="text" placeholder="Data Inicio"  name="data_inicio_reserva"
+                                           class="form-control" value="<?php echo(isset($_GET['data_inicio_aluga']) ?  htmlspecialchars($_GET['data_inicio_aluga']) : '')?>"/>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                </div>
+                            </div>
                             <br>
+                            <!--<input type="text" placeholder="Data Inicio" class="form-control" name="data_inicio_reserva" value=">-->
                             <?php
                                 $sql = "SELECT nif FROM user";
                                 $result_user = $db->query($sql);
@@ -96,10 +101,11 @@ $show_modal = false;
                                 }
                                 echo("</select>");
                             ?>
-<!--                            <input type="text" placeholder="NIF" class="form-control" name="nif" value=""/>-->
+                            <!--                            <input type="text" placeholder="NIF" class="form-control" name="nif" value=""/>-->
                             <br>
                             <input type="submit" class="btn btn-info" value="Inserir Reserva"/>
                         </form>
+                        <h1>Criar Reservas</h1>
                     </div>
                     <div class="col-md-12">
                         <h1>Todas as Reservas</h1>
@@ -342,7 +348,7 @@ catch (PDOException $e) {
 
 <script type="application/javascript">
     $('#sandbox-container .input-group.date').datepicker({
-        format: "yyyy/mm/dd",
+        format: "yyyy-mm-dd",
         maxViewMode: 3,
         clearBtn: true
     });
