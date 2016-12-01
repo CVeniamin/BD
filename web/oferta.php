@@ -198,7 +198,7 @@ function render_view_oferta($result) {
         echo ($row['data_fim']);
         echo ("</td>");
         echo ("<td>");
-        echo ($row['tarifa']);
+        echo (round($row['tarifa'],2));
         echo ("</td>");
         echo ("<td><a href=\"{$page}?espaco={$row['morada']}&codigo={$row['codigo']}&data_inicio={$row['data_inicio']}\">Remover Oferta</a></td>\n");
         echo ("<td><a href=\"{$page}?espaco_aluga={$row['morada']}&codigo_aluga={$row['codigo']}&data_inicio_aluga={$row['data_inicio']}\">Reservar</a></td>\n");
