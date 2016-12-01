@@ -84,7 +84,7 @@ CREATE TRIGGER `check_date`
 BEFORE INSERT ON oferta
 FOR EACH ROW
   BEGIN
-    IF (new. > data_inicio AND new.data_inicio > new.data_fim AND new.data_fim <= data_fim)
+    IF (new.data_inicio > data_inicio AND new.data_inicio > new.data_fim AND new.data_fim <= data_fim)
     THEN
       CALL data_oferta_indisponivel();
     END IF;
