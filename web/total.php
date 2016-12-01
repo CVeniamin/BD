@@ -1,11 +1,9 @@
 <?php
 require_once './db.php';
 ob_start();
-
 $page = $_SERVER['PHP_SELF'];
 $sec  = "3";
 $param = "";
-
 ?>
 <html>
 <head>
@@ -55,12 +53,10 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
-
 function render_view_total($result) {
     global $page;
     echo ("<table class=\"table table-striped table-hover\">\n");
     echo ("<tr><td>morada</td></tr>\n");
-
     foreach ($result as $row) {
         echo ("<tr><td>");
         echo ($row['morada']);
@@ -70,12 +66,10 @@ function render_view_total($result) {
     }
     echo ("</table>\n");
 }
-
 function render_view_espaco($result) {
     global $page;
     echo ("<table class=\"table table-striped table-hover\" >\n");
     echo ("<tr><td>morada</td><td>codigo</td></tr>\n");
-
     foreach ($result as $row) {
         echo ("<tr><td>");
         echo ($row['morada']);
@@ -90,18 +84,14 @@ function render_view_espaco($result) {
     }
     echo ("</table>\n");
 }
-
-
 function get_total($param){
     global $db;
     global $param;
-
     $sql = "SELECT o.codigo,SUM(DATEDIFF(o.data_fim,o.data_inicio) * o.tarifa) AS total
                    FROM paga p LEFT JOIN aluga a ON a.numero = p.numero
                      LEFT JOIN oferta o ON o.morada = a.morada AND o.codigo = a.codigo
                    WHERE a.morada = '$param'
                    GROUP BY o.morada,o.codigo";
-
     $result = $db->query($sql);
 //    echo("<div class=\"row\">");
     echo("<br>");
@@ -121,11 +111,8 @@ function get_total($param){
         echo("</td>");
     }
     echo("</div>");
-//    echo("<div class=\"col-md-4\">");
-//    echo("</div>");
     echo("</div>");
 }
-
 try {
     if (isset($_GET['edificio']) ) {
         $param = test_input($_GET['edificio']);
@@ -133,11 +120,10 @@ try {
     }
     $db = null;
 }
-
 catch (PDOException $e) {
     echo ("<p>ERROR: {$e->getMessage() }</p>");
+    header("Refresh: $sec; url=$page");
 }
-
 ?>
 </body>
 </html>
