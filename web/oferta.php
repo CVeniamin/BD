@@ -11,7 +11,10 @@ $show_modal = false;
 
 <html>
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>-->
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.1.1.slim.js" integrity="sha256-5i/mQ300M779N2OVDrl16lbohwXNUdzL/R2aVUXyXWA=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.css"></script>
@@ -38,12 +41,12 @@ $show_modal = false;
                         <div id="sandbox-container">
                             <div class="input-group date">
                                 <input type="text" placeholder="Data Inicio"  name="data_inicio" class="form-control">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-calendar-o" aria-hidden="true"></i></span>
                             </div>
                             <br>
                             <div class="input-group date">
                                 <input type="text" placeholder="Data Fim" name="data_fim" class="form-control" value="">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-calendar-o" aria-hidden="true"></i></span>
                             </div>
                         </div>
                         <br>
@@ -87,7 +90,8 @@ $show_modal = false;
                                 <div class="input-group date">
                                     <input type="text" placeholder="Data Inicio"  name="data_inicio_reserva"
                                            class="form-control" value="<?php echo(isset($_GET['data_inicio_aluga']) ?  htmlspecialchars($_GET['data_inicio_aluga']) : '')?>"/>
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                    <span class="input-group-addon"><i class="fa fa-calendar-o" aria-hidden="true"></i></span>
+
                                 </div>
                             </div>
                             <br>
@@ -324,7 +328,6 @@ try {
     }
 
 
-
     if ( $_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET['reserva'])) {
         $show_modal = true;
     }
@@ -332,7 +335,6 @@ try {
     if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["pagamento"]) && !empty($_POST["reserva_paga"])) {
         $reserva = test_input($_POST['reserva_paga']);
         $pagamento = utf8_decode(test_input($_POST['pagamento']));
-        echo $pagamento;
         $today = date("Y-m-d H:i:s");
         $param = array($reserva,$today,$pagamento);
         pagar($param);
