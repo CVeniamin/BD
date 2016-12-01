@@ -24,8 +24,12 @@ $show_modal = false;
     <meta charset="utf-8">
 </head>
 <body>
-
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <a href="./../web/"><i class="fa fa-chevron-circle-left fa-3x" aria-hidden="true"></i></a>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-3">
             <div class="row">
