@@ -59,23 +59,35 @@ FOR EACH ROW
   END$$
 
 DROP PROCEDURE IF EXISTS `INSERT_ALUGA`$$
-CREATE PROCEDURE `INSERT_ALUGA`(IN morada VARCHAR(255),IN codigo INT(11), IN data_inicio DATETIME,IN nif INT(9))
+CREATE PROCEDURE `INSERT_ALUGA`(IN morada VARCHAR(255),IN codigo VARCHAR(255), IN data_inicio DATE,IN nif VARCHAR(9),
+  IN numero VARCHAR(255))
   BEGIN
-    INSERT INTO reserva VALUE ();
-    INSERT INTO aluga VALUES (morada,codigo,data_inicio,nif,0);
-#     SELECT LAST_INSERT_ID(@new_numero);
+    INSERT INTO reserva VALUES (numero);
+    INSERT INTO aluga VALUES (morada,codigo,data_inicio,nif,numero);
   END$$
 
-DROP TRIGGER IF EXISTS `check_date`$$
+#
+# DROP FUNCTION IF EXISTS `GET_RESERVA`$$
+# CREATE FUNCTION `GET_RESERVA`() RETURNS VARCHAR(255)
+#   BEGIN
+#     SET @last_id= (SELECT numero FROM reserva
+#                   ORDER BY numero DESC
+#                   LIMIT 1);
+#     RETURN @last_id;
+#   END$$
 
+
+
+#NEED's fixing
+DROP TRIGGER IF EXISTS `check_date`$$
 CREATE TRIGGER `check_date`
-BEFORE UPDATE ON `oferta`
+BEFORE INSERT ON oferta
 FOR EACH ROW
   BEGIN
-    IF (new.morada = old.morada AND new.codigo = old.codigo
-        AND new.data_inicio > old.data_inicio AND new.data_fim <=old.data_fim) THEN
+    IF (new. > data_inicio AND new.data_inicio > new.data_fim AND new.data_fim <= data_fim)
+    THEN
       CALL data_oferta_indisponivel();
     END IF;
-  END $$
+  END; $$
 
 DELIMITER ;

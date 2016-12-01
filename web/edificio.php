@@ -208,6 +208,7 @@ try {
                 $param[2]
             ));
         }
+
         $db->commit();
 
         $page = $_SERVER['PHP_SELF'];

@@ -19,7 +19,7 @@ $sec  = "3";
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="row">
                 <div class="col-md-12">
                     <h1>Criar Ofertas</h1>
@@ -32,12 +32,12 @@ $sec  = "3";
                         <br>
                         <div id="sandbox-container">
                             <div class="input-group date">
-                                <input type="text" placeholder="data inicio"  name="data_inicio" class="form-control">
+                                <input type="text" placeholder="Data Inicio"  name="data_inicio" class="form-control">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                             </div>
                             <br>
                             <div class="input-group date">
-                                <input type="text" placeholder="data fim" name="data_fim" class="form-control" value="">
+                                <input type="text" placeholder="Data Fim" name="data_fim" class="form-control" value="">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                             </div>
                         </div>
@@ -57,7 +57,7 @@ $sec  = "3";
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-5">
             <h1>Todas as Ofertas</h1>
             <?php
                 $sql = "SELECT morada,codigo,data_inicio,data_fim,tarifa FROM oferta";
@@ -65,7 +65,38 @@ $sec  = "3";
                 render_view_oferta($result_espaco);
             ?>
         </div>
+
+        <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Criar Reservas</h1>
+                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                            <input type="text" placeholder="Morada" class="form-control" name="morada_reserva" value="<?php echo(
+                            isset($_GET['espaco_aluga']) ?  htmlspecialchars($_GET['espaco_aluga']) : '')?>"/>
+                            <br>
+                            <input type="text" placeholder="Codigo" class="form-control" name="codigo_reserva" value="<?php echo(
+                            isset($_GET['codigo_aluga']) ?  htmlspecialchars($_GET['codigo_aluga']) : '')?>"/>
+                            <br>
+                            <input type="text" placeholder="Data Inicio" class="form-control" name="data_inicio_reserva"
+                                   value="<?php echo(isset($_GET['data_inicio_aluga']) ?  htmlspecialchars($_GET['data_inicio_aluga']) : '')?>"/>
+                            <br>
+                            <input type="text" placeholder="NIF" class="form-control" name="nif" value=""/>
+                            <br>
+                            <input type="submit" class="btn btn-info" value="Inserir Reserva"/>
+                        </form>
+                    </div>
+                    <div class="col-md-12">
+                        <h1>Todas as Reservas</h1>
+                        <?php
+                        $sql = "SELECT  numero FROM reserva";
+                        $result_espaco = $db->query($sql);
+                        render_view_posto($result_espaco);
+                        ?>
+                    </div>
+                </div>
+            </div>
     </div>
+</div>
 
 </div>
 <?php
@@ -114,6 +145,7 @@ function render_view_oferta($result) {
         echo ($row['tarifa']);
         echo ("</td>");
         echo ("<td><a href=\"{$page}?espaco={$row['morada']}&codigo={$row['codigo']}&data_inicio={$row['data_inicio']}\">Remover Oferta</a></td>\n");
+        echo ("<td><a href=\"{$page}?espaco_aluga={$row['morada']}&codigo_aluga={$row['codigo']}&data_inicio_aluga={$row['data_inicio']}\">Reservar</a></td>\n");
         echo ("</tr>\n");
     }
     echo ("</table>\n");
@@ -122,24 +154,56 @@ function render_view_oferta($result) {
 function render_view_posto($result) {
     global $page;
     echo ("<table class=\"table table-striped table-hover\" >\n");
-    echo ("<tr><td>morada</td><td>codigo</td><td>codigo_espaco</td></tr>\n");
-
+    echo ("<tr><td>numero</td></tr>\n");
     foreach ($result as $row) {
         echo ("<tr><td>");
-        echo ($row['morada']);
+        echo ($row['numero']);
         echo ("</td>");
-        echo ("<td>");
-        echo ($row['codigo']);
-        echo ("</td>");
-        echo ("<td>");
-        echo ($row['codigo_espaco']);
-        echo ("</td>");
-        echo ("<td><a href=\"{$page}?posto={$row['morada']}&codigo={$row['codigo']}&codigo_espaco={$row
-        ['codigo_espaco']}\">Remover Posto</a></td>\n");
+        echo ("<td><a href=\"{$page}?posto={$row['numero']}\">Pagar Reserva</a></td>\n");
         echo ("</tr>\n");
     }
     echo ("</table>\n");
 }
+
+function reservar($param){
+
+    global $db;
+    $db->beginTransaction();
+    $sth = $db->prepare("SELECT numero FROM reserva");
+    $sth->execute();
+    $result = $sth->fetchAll(PDO::FETCH_COLUMN, 0);
+    $db->commit();
+    $tmp_arr = 0;
+    foreach ($result as $res){
+        $arr = explode("-",$res);
+        if ($arr[1] >= $tmp_arr){
+            $tmp_arr = $arr[1];
+        }
+    }
+
+    $tmp_arr = $tmp_arr + 1;
+    $tmp = $param[2];
+    $tmp = explode("-",$tmp);
+    $tmp = array($tmp[0],$tmp_arr);
+    $tmp = implode("-",$tmp);
+
+    $db->beginTransaction();
+    $stmt = $db->prepare("CALL INSERT_ALUGA(?,?,?,?,?);");
+    array_push($param,$tmp);
+
+    echo $tmp;
+
+    $stmt->execute(array(
+        $param[0],
+        $param[1],
+        $param[2],
+        $param[3],
+        $param[4],
+    ));
+
+    $db->commit();
+}
+
 try {
     if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["tarifa"]) && !empty($_POST["data_inicio"]) &&
         !empty($_POST["data_fim"]) && !empty($_POST["morada"]) && !empty($_POST["codigo"])) {
@@ -157,23 +221,51 @@ try {
             $data_fim,
             $tarifa
         ));
+
         header("Refresh: $sec; url=$page");
     }
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["morada_posto"]) && !empty($_POST["codigo_posto"]) &&
-        !empty($_POST["foto_url_posto"]) && !empty($_POST["codigo_espaco"])) {
-        $morada_posto = test_input($_POST["morada_posto"]);
-        $codigo_posto = test_input($_POST["codigo_posto"]);
-        $foto_url_posto = test_input($_POST["foto_url_posto"]);
-        $codigo_espaco = test_input($_POST["codigo_espaco"]);
-        $stmt = $db->prepare("CALL INSERT_POSTO(?,?,?,?)");
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["nif"]) && !empty($_POST["data_inicio_reserva"])
+        && !empty($_POST["morada_reserva"]) && !empty($_POST["codigo_reserva"])) {
+        $morada = test_input($_POST["morada_reserva"]);
+        $codigo = test_input($_POST["codigo_reserva"]);
+        $data_inicio = test_input($_POST["data_inicio_reserva"]);
+        $nif = test_input($_POST["nif"]);
+
+        $db->beginTransaction();
+        $sth = $db->prepare("SELECT numero FROM reserva");
+        $sth->execute();
+        $result = $sth->fetchAll(PDO::FETCH_COLUMN, 0);
+        $db->commit();
+        $tmp_arr = 0;
+        foreach ($result as $res){
+            $arr = explode("-",$res);
+            if ($arr[1] >= $tmp_arr){
+                $tmp_arr = $arr[1];
+            }
+        }
+
+        $tmp_arr = $tmp_arr + 1;
+
+        $tmp = $data_inicio;
+        $tmp = explode("-",$tmp);
+        $tmp = array($tmp[0],$tmp_arr);
+        $tmp = implode("-",$tmp);
+
+        $db->beginTransaction();
+        $stmt = $db->prepare("CALL INSERT_ALUGA(?,?,?,?,?);");
+
         $stmt->execute(array(
-            $morada_posto,
-            $codigo_posto,
-            $codigo_espaco,
-            $foto_url_posto
+            $morada,
+            $codigo,
+            $data_inicio,
+            $nif,
+            $tmp
         ));
-//        $stmt   = $db->exec("CALL INSERT_POSTO('$morada_posto', '$codigo_posto', NULL);");
-        header("Refresh: $sec; url=$page");
+
+        $db->commit();
+
+//        reservar($param);
     }
 
     function deleteAddress($param,$str) {
@@ -199,6 +291,14 @@ try {
         $param = array(test_input($_GET['espaco']), test_input($_GET['codigo']),test_input($_GET['data_inicio']));
         deleteAddress($param,"oferta");
     }
+
+//
+//    if (isset($_GET['espaco_aluga']) && isset($_GET['codigo_aluga'])
+//        && isset($_GET['data_inicio_aluga'])&& isset($_GET['data_fim_aluga'])) {
+//        $param = array(test_input($_GET['espaco_aluga']), test_input($_GET['codigo_aluga']),test_input
+//        ($_GET['data_inicio_aluga']),test_input($_GET['data_fim_aluga']));
+////        reservar($param);
+//    }
 
     $db = null;
 }
