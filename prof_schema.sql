@@ -41,7 +41,7 @@ create table arrenda (
   codigo varchar(255) not null,
   nif varchar(9) not null,
   primary key(morada, codigo),
-  foreign key(morada, codigo) references alugavel(morada, codigo),
+  foreign key(morada, codigo) references alugavel(morada, codigo)ON DELETE CASCADE,
   foreign key(nif) references user(nif));
 
 create table fiscaliza (
@@ -49,7 +49,7 @@ create table fiscaliza (
   morada varchar(255) not null ,
   codigo varchar(255) not null ,
   primary key(id, morada, codigo),
-  foreign key(morada, codigo) references arrenda(morada, codigo),
+  foreign key(morada, codigo) references arrenda(morada, codigo)ON DELETE CASCADE,
   foreign key(id) references fiscal(id));
 
 create table espaco (
@@ -64,7 +64,7 @@ create table posto (
   codigo_espaco varchar(255) not null,
   primary key(morada, codigo),
   foreign key(morada, codigo) references alugavel(morada, codigo) ON DELETE CASCADE,
-  foreign key(morada, codigo_espaco) references espaco(morada, codigo));
+  foreign key(morada, codigo_espaco) references espaco(morada, codigo) ON DELETE CASCADE);
 
 create table oferta (
   morada varchar(255) not null,
@@ -73,7 +73,7 @@ create table oferta (
   data_fim date not null,
   tarifa numeric(19,4) not null,
   primary key(morada, codigo, data_inicio),
-  foreign key(morada, codigo) references alugavel(morada, codigo));
+  foreign key(morada, codigo) references alugavel(morada, codigo) ON DELETE CASCADE);
 
 create table reserva (
   numero varchar(255) not null unique,

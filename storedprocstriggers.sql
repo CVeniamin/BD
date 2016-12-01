@@ -66,15 +66,12 @@ CREATE PROCEDURE `INSERT_ALUGA`(IN morada VARCHAR(255),IN codigo VARCHAR(255), I
     INSERT INTO aluga VALUES (morada,codigo,data_inicio,nif,numero);
   END$$
 
-#
-# DROP FUNCTION IF EXISTS `GET_RESERVA`$$
-# CREATE FUNCTION `GET_RESERVA`() RETURNS VARCHAR(255)
-#   BEGIN
-#     SET @last_id= (SELECT numero FROM reserva
-#                   ORDER BY numero DESC
-#                   LIMIT 1);
-#     RETURN @last_id;
-#   END$$
+DROP FUNCTION IF EXISTS `GET_TOTAL`$$
+CREATE FUNCTION `GET_TOTAL`(IN morada VARCHAR(255)) RETURNS DEC(10,4)
+  BEGIN
+    SET @last_id= ();
+    RETURN @last_id;
+  END$$
 
 
 
