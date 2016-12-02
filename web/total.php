@@ -1,8 +1,7 @@
 <?php
 require_once './db.php';
-ob_start();
 $page = $_SERVER['PHP_SELF'];
-$sec  = "3";
+$sec  = "0";
 $param = "";
 ?>
 <html>
@@ -53,6 +52,7 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
+
 function render_view_total($result) {
     global $page;
     echo ("<table class=\"table table-striped table-hover\">\n");
@@ -66,24 +66,7 @@ function render_view_total($result) {
     }
     echo ("</table>\n");
 }
-function render_view_espaco($result) {
-    global $page;
-    echo ("<table class=\"table table-striped table-hover\" >\n");
-    echo ("<tr><td>morada</td><td>codigo</td></tr>\n");
-    foreach ($result as $row) {
-        echo ("<tr><td>");
-        echo ($row['morada']);
-        echo ("</td>");
-        echo ("<td>");
-        echo ($row['codigo']);
-        echo ("</td>");
-        echo ("<td><a href=\"{$page}?espaco={$row['morada']}&codigo={$row['codigo']}\">Remover Espaco</a></td>\n");
-        echo ("<td><a href=\"{$page}?espaco_posto={$row['morada']}&codigo_espaco={$row['codigo']}\">Adicionar 
-        Posto</a></td>\n");
-        echo ("</tr>\n");
-    }
-    echo ("</table>\n");
-}
+
 function get_total($param){
     global $db;
     global $param;
