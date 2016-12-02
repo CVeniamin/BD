@@ -30,6 +30,7 @@ CREATE PROCEDURE `INSERT_ALUGA`(IN morada VARCHAR(255),IN codigo VARCHAR(255), I
     INSERT INTO aluga VALUES (morada,codigo,data_inicio,nif,numero);
   END$$
 
+
 #RI-1:Não podem existir ofertas com datas sobrepostas
 DROP TRIGGER IF EXISTS `check_date`$$
 CREATE TRIGGER `check_date`
@@ -43,7 +44,10 @@ FOR EACH ROW
                          OR (new.data_inicio > new.data_fim))) THEN
       CALL data_oferta_sobrepostas();
     END IF;
-  END; $$
+  END $$
+
+#RI-2: "A data de pagamento de uma reserva paga tem de ser superior ao timestamp do
+#último estado dessa reserva
 
 DROP TRIGGER IF EXISTS `check_date_pagamento`$$
 CREATE TRIGGER `check_date_pagamento`
