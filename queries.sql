@@ -55,8 +55,9 @@ GROUP BY a.morada,a.codigo;
 # 5. Quais os espaços de trabalho cujos postos nele contidos foram todos alugados? (Poralugado entende-se um posto de trabalho que tenha pelo menos uma oferta aceite,independentemente das suas datas.)
 SELECT
   p.morada,
-  p.codigo
+  p.codigo_espaco
 FROM posto p LEFT JOIN aluga a ON a.morada = p.morada AND a.codigo = p.codigo
-  LEFT JOIN estado e ON e.numero = a.numero
-WHERE e.estado = 'aceite'
-GROUP BY p.morada, p.codigo;
+  LEFT JOIN estado e ON e.numero = a.numero AND e.estado = 'aceite'
+WHERE 1
+GROUP BY p.codigo_espaco
+HAVING SUM(IF(ISNULL(e.estado), 1, 0)) = 0;
