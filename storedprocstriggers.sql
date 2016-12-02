@@ -46,7 +46,7 @@ FOR EACH ROW
     END IF;
   END $$
 
-#RI-2: "A data de pagamento de uma reserva paga tem de ser superior ao timestamp do
+#RI-2: A data de pagamento de uma reserva paga tem de ser superior ao timestamp do
 #último estado dessa reserva
 
 DROP TRIGGER IF EXISTS `check_date_pagamento`$$
