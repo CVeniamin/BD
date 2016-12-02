@@ -1,29 +1,10 @@
 # 1. Quais os espaços com postos que nunca foram alugados?
-SELECT DISTINCT e.morada,e.codigo
-FROM espaco e LEFT JOIN posto p ON p.morada = e.morada AND p.codigo_espaco = e.codigo
-  LEFT JOIN aluga a ON a.codigo = p.codigo
-WHERE a.numero IS NULL;
--- OR
 SELECT DISTINCT e.morada,e.codigo,p.codigo
 FROM espaco e LEFT JOIN posto p ON p.morada = e.morada AND p.codigo_espaco = e.codigo
   LEFT JOIN aluga a ON a.codigo = p.codigo
 WHERE a.numero IS NULL AND p.codigo IS NOT NULL;
 
-
-
 # 2. Quais edifícios com um número de reservas superior à média?
-CREATE TEMPORARY TABLE edificios SELECT
-                                   e.morada,
-                                   COUNT(*) AS cnt
-                                 FROM edificio e LEFT JOIN aluga a ON a.morada = e.morada
-                                 GROUP BY e.morada;
-SELECT @average = AVG(cnt)
-FROM edificios;
-SELECT morada
-FROM edificios
-WHERE cnt > @average;
-DROP TEMPORARY TABLE edificios;
--- OR
 SELECT a.morada
 FROM aluga a
 GROUP BY a.morada

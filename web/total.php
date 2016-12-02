@@ -93,7 +93,6 @@ function get_total($param){
                    WHERE a.morada = '$param'
                    GROUP BY o.morada,o.codigo";
     $result = $db->query($sql);
-//    echo("<div class=\"row\">");
     echo("<br>");
     echo("<br>");
     echo("<br>");
