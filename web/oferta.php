@@ -56,7 +56,7 @@ $show_modal = false;
                         <br>
                         <input type="number" placeholder="Tarifa" min="0" class="form-control" name="tarifa" value=""/>
                         <br>
-                        <input type="submit" class="btn btn-info" value="Inserir Edificio"/>
+                        <input type="submit" class="btn btn-info" value="Inserir Oferta"/>
                     </form>
                 </div>
                 <div class="col-md-12">
