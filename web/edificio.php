@@ -110,15 +110,13 @@ function test_input($data) {
 }
 
 function render_view_edificio($result) {
-    global $page;
     echo ("<table class=\"table table-striped table-hover\">\n");
-    echo ("<tr><td>morada</td></tr>\n");
-
+    echo ("<tr><td>Todos os Edificios</td></tr>\n");
+    echo ("<td></td>");
     foreach ($result as $row) {
         echo ("<tr><td>");
         echo ($row['morada']);
         echo ("</td>");
-//        echo ("<td><a href=\"{$page}?edificio={$row['morada']}\">Remover Edificio</a></td>\n");
         echo ("</tr>\n");
     }
     echo ("</table>\n");
