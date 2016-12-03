@@ -21,16 +21,32 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
 
             <h1>Inserir Edificios</h1>
+
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <input type="text" placeholder="Morada" class="form-control" name="morada" value=""/>
                 <br>
                 <input type="submit" class="btn btn-info" value="Inserir Edificio"/>
             </form>
+            <h1>Remover Edificio</h1>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <?php
+                $sql = "SELECT morada FROM edificio";
+                $result_user = $db->query($sql);
+                echo(" <select class=\"form-control\" name=\"remover_edificio\">");
+                echo("<option value=\" \" >Edificio</option>");
+                foreach ($result_user as $user){
+                    echo("<option value=\"{$user["morada"]}\">{$user["morada"]} </option>");
+                }
+                echo("</select>");
+                ?>
+                <br>
+                <input type="submit" class="btn btn-info" value="Remover Edificio"/>
+            </form>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <h1>Inserir Espaços</h1>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <input type="text" placeholder="Morada" class="form-control" name="morada_espaco" value=""/>
@@ -62,14 +78,14 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <?php
             $sql    = "SELECT morada FROM edificio";
             $result = $db->query($sql);
             render_view_edificio($result);
             ?>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <?php
             $sql = "SELECT morada,codigo FROM espaco";
             $result_espaco = $db->query($sql);
@@ -89,7 +105,7 @@
 function test_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data);
+    $data = htmlentities($data);
     return $data;
 }
 
@@ -102,7 +118,7 @@ function render_view_edificio($result) {
         echo ("<tr><td>");
         echo ($row['morada']);
         echo ("</td>");
-        echo ("<td><a href=\"{$page}?edificio={$row['morada']}\">Remover Edificio</a></td>\n");
+//        echo ("<td><a href=\"{$page}?edificio={$row['morada']}\">Remover Edificio</a></td>\n");
         echo ("</tr>\n");
     }
     echo ("</table>\n");
@@ -149,8 +165,40 @@ function render_view_posto($result) {
     }
     echo ("</table>\n");
 }
-try {
+function deleteAddress($param,$str) {
+    global $db;
+    global $page;
+    global $sec;
 
+
+    $db->beginTransaction();
+    if (strcmp($str,"edificio") == 0){
+
+        $stmt = $db->prepare("DELETE FROM edificio WHERE morada = ?");
+        $stmt->execute(array(
+            $param
+        ));
+    }
+    if (strcmp($str,"espaco") == 0){
+        $stmt = $db->prepare("DELETE FROM espaco WHERE morada = ? AND codigo = ?");
+        $stmt->execute(array(
+            $param[0],
+            $param[1],
+        ));
+    }
+    if (strcmp($str,"posto") == 0){
+        $stmt = $db->prepare("DELETE FROM posto WHERE morada = ? AND codigo = ? AND codigo_espaco = ?");
+        $stmt->execute(array(
+            $param[0],
+            $param[1],
+            $param[2]
+        ));
+    }
+
+    $db->commit();
+    header("Refresh: $sec; url=$page");
+}
+try {
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["morada"])) {
         $morada = test_input($_POST["morada"]);
@@ -159,6 +207,12 @@ try {
             $morada
         ));
         header("Refresh: $sec; url=$page");
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["remover_edificio"])) {
+        $morada = test_input($_POST["remover_edificio"]);
+        echo $morada;
+        deleteAddress($morada,"edificio");
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && (!empty($_POST["morada_espaco"]) && (!empty($_POST["codigo"])) &&
@@ -192,40 +246,12 @@ try {
         header("Refresh: $sec; url=$page");
     }
 
-    function deleteAddress($param,$str) {
-        global $db;
-        $db->beginTransaction();
-        if (strcmp($str,"edificio") == 0){
-            $stmt = $db->prepare("DELETE FROM edificio WHERE morada = ?");
-            $stmt->execute(array(
-                $param
-            ));
-        }
-        if (strcmp($str,"espaco") == 0){
-            $stmt = $db->prepare("DELETE FROM espaco WHERE morada = ? AND codigo = ?");
-            $stmt->execute(array(
-                $param[0],
-                $param[1],
-            ));
-        }
-        if (strcmp($str,"posto") == 0){
-            $stmt = $db->prepare("DELETE FROM posto WHERE morada = ? AND codigo = ? AND codigo_espaco = ?");
-            $stmt->execute(array(
-                $param[0],
-                $param[1],
-                $param[2]
-            ));
-        }
 
-        $db->commit();
-
-        $page = $_SERVER['PHP_SELF'];
-        $sec  = "3";
-        header("Refresh: $sec; url=$page");
-    }
 
     if (isset($_GET['edificio'])) {
-        $param = $_GET['edificio'];
+        $param = html_entity_decode($_GET['edificio']);
+
+//        $param = test_input($_GET['edificio']);
         echo $param;
         deleteAddress($param,"edificio");
     }
