@@ -111,8 +111,7 @@ function test_input($data) {
 
 function render_view_edificio($result) {
     echo ("<table class=\"table table-striped table-hover\">\n");
-    echo ("<tr><td>Todos os Edificios</td></tr>\n");
-    echo ("<td></td>");
+    echo ("<h1>Todos os Edificios</h1>\n");
     foreach ($result as $row) {
         echo ("<tr><td>");
         echo ($row['morada']);
